@@ -15,8 +15,7 @@ import lombok.NoArgsConstructor;
 @Document(collection = "subjects")
 public class Subject {
 	@Id
-	private int subjectId;
-	
+	private int subjectId;	
 	private String subjectName;
 	private List<Subsubject> subsubjects;
 	
@@ -24,4 +23,12 @@ public class Subject {
 		this.subsubjects = new ArrayList<Subsubject>();
 	}
 	
+	public Subsubject findSubsubjectFromSubject(int id) {
+		for (Subsubject subsubject : subsubjects) {
+			if(subsubject.getSubsubjectId() == id)
+				return subsubject;
+		}
+		
+		return null;
+	}
 }

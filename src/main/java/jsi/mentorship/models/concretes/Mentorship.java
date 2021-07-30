@@ -22,4 +22,5 @@ public class Mentorship {
 	private int menteeId;
 	private List<Phase> phases;
 	private int situation; // 0- faz oluşturulmadı, 1- fazlar oluşturuldu, 3- tamamlandı
+	private Subsubject subsubject;
 }

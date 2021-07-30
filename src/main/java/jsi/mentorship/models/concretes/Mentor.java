@@ -1,5 +1,6 @@
 package jsi.mentorship.models.concretes;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import jsi.mentorship.models.abstracts.Role;
@@ -10,20 +11,15 @@ import lombok.Data;
 @AllArgsConstructor
 public class Mentor implements Role{
 	private int roleId;
-	private List<Mentorship> mentorshipsGiven;
-	private List<Subject> subjectsGiven;
-	
+	private List<Integer> mentorshipsGiven;
+	private List<Subsubject> subsubjectsOfExpertise;
+	private String description;
 	
 	public Mentor() {
-		roleId = 2;
-	}
+		this.roleId = 2;
+		this.mentorshipsGiven = new ArrayList<Integer>();
+		this.subsubjectsOfExpertise = new ArrayList<Subsubject>();
+		this.description = "";
+		}
 	
-	public void getAllMentorshipApplies() {
-		System.out.println("Get All Mentorship Applies");
-	}
-	
-	public void acceptOrRejectMentorshipApply(boolean flag, Mentorship mentorship) {
-		System.out.println("Accept or reject ");
-		
-	}
 }

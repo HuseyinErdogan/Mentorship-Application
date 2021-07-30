@@ -10,8 +10,4 @@ public class Mentee implements Role{
 	public Mentee() {
 		roleId=1;
 	}
-	
-	public void applyForMentoring(Mentorship mentorship) {
-		
-	}
 }

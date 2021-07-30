@@ -7,12 +7,14 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+
 import jsi.mentorship.dataAccess.SubjectRepository;
 import jsi.mentorship.models.concretes.Subject;
-import jsi.mentorship.models.concretes.Subsubject;
 
 @Configuration
 @CrossOrigin(origins = "http://localhost:6006")
@@ -20,15 +22,25 @@ import jsi.mentorship.models.concretes.Subsubject;
 @RequestMapping("/api")
 public class SubjectController {
 	
+    public static final String ROLE_ADMIN = "ROLE_MANAGER";
+    public static final String ROLE_USER = "ROLE_USER";
+	
+	
 	@Autowired
 	private SubjectRepository subjectRepository;
 	
-	@Secured({"ROLE_USER","ROLE_MANAGER"})
+	@Secured({ROLE_ADMIN,ROLE_USER})
 	@GetMapping("/subjects")
 	public List<Subject> getAllSubject(){
 		return this.subjectRepository.findAll();
 	}
 	
+	@Secured(ROLE_ADMIN)
+	@PostMapping("/subjects/add") 
+	public String addSubject(@RequestBody Subject subject) {
+		this.subjectRepository.save(subject);
+		return subject.getSubjectName()+" eklendi.";
+	}
 
 
 }

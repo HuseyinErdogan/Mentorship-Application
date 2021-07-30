@@ -45,14 +45,34 @@ sn:Erdogan
 uid: hus
 userPassword: 123
 
+dn: uid=jerry,ou=people,dc=springframework,dc=org
+objectclass: top
+objectclass: person
+objectclass: organizationalPerson
+objectclass: inetOrgPerson
+cn: Jerry Barry
+sn:Barry
+uid: jerry
+userPassword: 123
+
 dn: uid=dane,ou=people,dc=springframework,dc=org
 objectclass: top
 objectclass: person
 objectclass: organizationalPerson
 objectclass: inetOrgPerson
-cn: Dane Sane
-sn: Sane
+cn: Dane Portia
+sn:Portia
 uid: dane
+userPassword: 123
+
+dn: uid=amelia,ou=people,dc=springframework,dc=org
+objectclass: top
+objectclass: person
+objectclass: organizationalPerson
+objectclass: inetOrgPerson
+cn: Amelia Kirsten
+sn:Kirsten
+uid: amelia
 userPassword: 123
 
 
@@ -69,4 +89,7 @@ objectclass: top
 objectclass: groupOfUniqueNames
 cn: user
 uniqueMember: uid=hus,ou=people,dc=springframework,dc=org
+uniqueMember: uid=dane,ou=people,dc=springframework,dc=org
+uniqueMember: uid=jerry,ou=people,dc=springframework,dc=org
+uniqueMember: uid=amelia,ou=people,dc=springframework,dc=org
 

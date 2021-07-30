@@ -7,5 +7,5 @@ import jsi.mentorship.models.concretes.Subject;
 
 @Repository
 public interface SubjectRepository extends MongoRepository<Subject, Integer>{
-
+	
 }
