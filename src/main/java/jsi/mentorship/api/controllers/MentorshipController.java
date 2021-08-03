@@ -1,6 +1,5 @@
 package jsi.mentorship.api.controllers;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,13 +11,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import jsi.mentorship.dataAccess.MentorshipRepository;
-import jsi.mentorship.dataAccess.SubjectRepository;
+
+import jsi.mentorship.business.abstracts.MentorshipService;
+
 import jsi.mentorship.models.concretes.Mentorship;
-import jsi.mentorship.models.concretes.Phase;
-import jsi.mentorship.models.concretes.Subsubject;
+
 
 
 @Configuration
@@ -30,26 +28,35 @@ public class MentorshipController {
     public static final String ROLE_USER = "ROLE_USER";
 	
 	@Autowired
-	private MentorshipRepository mentorshipRepository;
+	private MentorshipService mentorshipService;
 	
 	@Secured({ROLE_USER, ROLE_ADMIN})
 	@GetMapping("/mentorships")
-	public List<Mentorship> getAllMentorship(){
-		return mentorshipRepository.findAll();
-	}
-	
-	@Secured({ROLE_USER, ROLE_ADMIN})
-	@GetMapping("/mentorships/get/{id}")
-	public Mentorship getById(@PathVariable int id){
-		return mentorshipRepository.findById(id).get();
+	public List<Mentorship>  getAllMentorships(){
+		return this.mentorshipService.findAll();
 	}
 	
 	@Secured(ROLE_ADMIN)
-	@PostMapping(value = "/mentorships/add")
+	@GetMapping("/mentorships/getByMenteeId/{id}")
+	public List<Mentorship> getByMenteeId(@PathVariable("id") int id){
+		return this.mentorshipService.findByMenteeId(id);
+	}
+	
+	@Secured(ROLE_ADMIN)
+	@GetMapping("/mentorships/getByMentorId/{id}")
+	public List<Mentorship> getByMentorId(@PathVariable("id") int id){
+		return this.mentorshipService.findByMentorId(id);
+	}
+	
+	
+	@Secured(ROLE_ADMIN)
+	@PostMapping("/mentorships/add")
 	public String addMentorship(@RequestBody Mentorship mentorship) {
-		mentorshipRepository.save(mentorship);
+		this.mentorshipService.saveOrUpdateMentorship(mentorship);
 		return "işlem başarılı";
 	}
+	
+
 	
 
 	

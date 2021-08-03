@@ -8,4 +8,5 @@ import jsi.mentorship.models.concretes.User;
 @Repository
 public interface UserRepository extends MongoRepository<User, Integer>{
 
+	User findByUserId(int id);
 }

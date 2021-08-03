@@ -1,13 +1,8 @@
 package jsi.mentorship.models.concretes;
 
-
-
-import java.util.Stack;
-
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import jsi.mentorship.models.abstracts.Role;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -19,22 +14,15 @@ import lombok.NoArgsConstructor;
 public class User {
 	
 	@Id
-	private int id;
+	private int userId;
 	
+	private String username;
 	private String firstName;
 	private String lastName;
 	private String email;
 	private String phoneNumber;
-	private String password;
+	private String userPassword;
 	
 	private Role role;
-	
-	private int mentorshipTakenId;
-	
-	//private Stack<Integer> oldMentorshipTaken;
-	
-	
-	
-	
 
 }

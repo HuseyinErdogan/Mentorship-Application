@@ -13,18 +13,23 @@ import org.springframework.security.ldap.DefaultSpringSecurityContextSource;
 
 @Configuration
 @EnableWebSecurity
-public class SecurityConfiguration extends WebSecurityConfigurerAdapter{
+public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter{
 	
 	    @Override
 	    protected void configure(HttpSecurity http) throws Exception {
 	        http
 	                .authorizeRequests()
+	                	  .antMatchers("/api/mentorships").permitAll()
+	                	  .antMatchers("/api/users/authenticate").permitAll()
+	                    //Fullyauthenticated
+	                .and()
+	                	.formLogin().and()
+	                    .httpBasic()
+	                    .and().csrf().disable();
+	        
 	           //         .antMatchers("/api/mentorship/**").hasRole("MANAGER")
 	           //         .antMatchers("/admin").hasRole("MANAGER")
 	           //         .antMatchers("/user").hasRole("USER")
-	                    .anyRequest().fullyAuthenticated()
-	                .and()
-	                    .formLogin();
 	    }
 
 	    @Override

@@ -7,5 +7,6 @@ import jsi.mentorship.models.concretes.Subject;
 
 @Repository
 public interface SubjectRepository extends MongoRepository<Subject, Integer>{
-	
+	Subject findBySubjectName(String subjectName);
+	String deleteSubjectBySubjectName(String subjectName);
 }

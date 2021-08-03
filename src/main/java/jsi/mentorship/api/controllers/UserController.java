@@ -7,14 +7,14 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+
 import org.springframework.web.bind.annotation.RestController;
 
-import jsi.mentorship.dataAccess.MentorshipRepository;
-import jsi.mentorship.dataAccess.UserRepository;
-import jsi.mentorship.models.concretes.Mentee;
-import jsi.mentorship.models.concretes.Mentor;
-import jsi.mentorship.models.concretes.Subject;
+import jsi.mentorship.business.abstracts.UserService;
 import jsi.mentorship.models.concretes.User;
 
 
@@ -28,13 +28,34 @@ public class UserController {
     public static final String ROLE_USER = "ROLE_USER";
 	
     @Autowired
-    private UserRepository userRepository;
+    private UserService userService;
     
     
-	@Secured({ROLE_ADMIN,ROLE_USER})
+	@Secured({ROLE_ADMIN})
 	@GetMapping("/users")
-	public List<User> getAllSubject(){
-		return this.userRepository.findAll();
+	public List<User> getAllUsers(){
+		return this.userService.findAll();
+	}
+	
+
+	@Secured({ROLE_USER, ROLE_ADMIN})
+	@GetMapping("/users/get/{userId}")
+	public User getById(@PathVariable("userId") int userId){
+		return userService.findByUserId(userId);
+	}
+	
+	@Secured(ROLE_ADMIN)
+	@PostMapping("/users/add")
+	public String addMentorship(@RequestBody User user) {
+		this.userService.saveOrUpdateUser(user);
+		return "işlem başarılı";
+	}
+	@Secured(ROLE_ADMIN)
+	@PostMapping("/users/authenticate")
+	public String userAuthenticate(@RequestBody User user) {
+//		
+		
+		return "işlem başarılı";
 	}
 	
 

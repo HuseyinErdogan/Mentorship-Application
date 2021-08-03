@@ -31,7 +31,7 @@ public class SubjectController {
 	
 	@Secured({ROLE_ADMIN,ROLE_USER})
 	@GetMapping("/subjects")
-	public List<Subject> getAllSubject(){
+	public List<Subject> getAllSubjects(){
 		return this.subjectRepository.findAll();
 	}
 	
