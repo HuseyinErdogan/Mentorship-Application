@@ -10,4 +10,6 @@ public interface UserService {
 	User authenticate(String username, String userPassword);
 	User findByUserId(int userId);
 	void deleteUserById(int id);
+	User findByUsername(String userName);
+	boolean checkUsernameAndPassword(String username, String password);
 }

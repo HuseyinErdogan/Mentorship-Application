@@ -19,7 +19,7 @@ import jsi.mentorship.models.concretes.User;
 
 
 @Configuration
-@CrossOrigin(origins = "http://localhost:6006")
+@CrossOrigin()
 @RestController
 @RequestMapping("/api")
 public class UserController {
@@ -31,26 +31,33 @@ public class UserController {
     private UserService userService;
     
     
-	@Secured({ROLE_ADMIN})
+	//@Secured({ROLE_ADMIN})
 	@GetMapping("/users")
 	public List<User> getAllUsers(){
 		return this.userService.findAll();
 	}
+
+    
 	
 
-	@Secured({ROLE_USER, ROLE_ADMIN})
+	//@Secured({ROLE_USER, ROLE_ADMIN})
 	@GetMapping("/users/get/{userId}")
 	public User getById(@PathVariable("userId") int userId){
 		return userService.findByUserId(userId);
 	}
 	
-	@Secured(ROLE_ADMIN)
+	@GetMapping("/users/getByUsername/{username}")
+	public User getByUsername(@PathVariable("username") String username){
+		return userService.findByUsername(username);
+	}
+	
+	//@Secured(ROLE_ADMIN)
 	@PostMapping("/users/add")
 	public String addMentorship(@RequestBody User user) {
 		this.userService.saveOrUpdateUser(user);
 		return "işlem başarılı";
 	}
-	@Secured(ROLE_ADMIN)
+	//@Secured(ROLE_ADMIN)
 	@PostMapping("/users/authenticate")
 	public String userAuthenticate(@RequestBody User user) {
 //		

@@ -3,11 +3,13 @@ package jsi.mentorship.business.concretes;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import jsi.mentorship.business.abstracts.SubjectService;
 import jsi.mentorship.dataAccess.SubjectRepository;
 import jsi.mentorship.models.concretes.Subject;
 
+@Service
 public class SubjectManager implements SubjectService{
 
 	@Autowired

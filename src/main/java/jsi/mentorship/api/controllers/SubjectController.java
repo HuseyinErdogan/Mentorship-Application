@@ -29,13 +29,13 @@ public class SubjectController {
 	@Autowired
 	private SubjectRepository subjectRepository;
 	
-	@Secured({ROLE_ADMIN,ROLE_USER})
+	//@Secured({ROLE_ADMIN,ROLE_USER})
 	@GetMapping("/subjects")
 	public List<Subject> getAllSubjects(){
 		return this.subjectRepository.findAll();
 	}
 	
-	@Secured(ROLE_ADMIN)
+	//@Secured(ROLE_ADMIN)
 	@PostMapping("/subjects/add") 
 	public String addSubject(@RequestBody Subject subject) {
 		this.subjectRepository.save(subject);

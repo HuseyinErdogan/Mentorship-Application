@@ -41,4 +41,19 @@ public class UserManager implements UserService{
 		this.userRepository.deleteById(id);
 	}
 
+	@Override
+	public User findByUsername(String userName) {
+		return this.userRepository.findByUsername(userName);
+	}
+
+	@Override
+	public boolean checkUsernameAndPassword(String username, String password) {
+		
+		User user = this.findByUsername(username);
+		if(user!=null)
+			if(user.getUserPassword().equals(password))
+				return true;	
+		return false;
+	}
+
 }

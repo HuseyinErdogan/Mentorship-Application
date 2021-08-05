@@ -84,12 +84,19 @@ uniqueMember: uid=john,ou=people,dc=springframework,dc=org
 uniqueMember: uid=allen,ou=people,dc=springframework,dc=org
 
 
-dn: cn=user,ou=groups,dc=springframework,dc=org
+dn: cn=mentor,ou=groups,dc=springframework,dc=org
 objectclass: top
 objectclass: groupOfUniqueNames
-cn: user
+cn: mentor
 uniqueMember: uid=hus,ou=people,dc=springframework,dc=org
 uniqueMember: uid=dane,ou=people,dc=springframework,dc=org
+
+
+dn: cn=mentee,ou=groups,dc=springframework,dc=org
+objectclass: top
+objectclass: groupOfUniqueNames
+cn: mentee
 uniqueMember: uid=jerry,ou=people,dc=springframework,dc=org
 uniqueMember: uid=amelia,ou=people,dc=springframework,dc=org
+
 

@@ -20,7 +20,7 @@ import jsi.mentorship.models.concretes.Mentorship;
 
 
 @Configuration
-@CrossOrigin(origins = "http://localhost:6006")
+@CrossOrigin()
 @RestController
 @RequestMapping("/api")
 public class MentorshipController {
@@ -30,26 +30,26 @@ public class MentorshipController {
 	@Autowired
 	private MentorshipService mentorshipService;
 	
-	@Secured({ROLE_USER, ROLE_ADMIN})
+	//@Secured({ROLE_USER, ROLE_ADMIN})
 	@GetMapping("/mentorships")
 	public List<Mentorship>  getAllMentorships(){
 		return this.mentorshipService.findAll();
 	}
 	
-	@Secured(ROLE_ADMIN)
-	@GetMapping("/mentorships/getByMenteeId/{id}")
-	public List<Mentorship> getByMenteeId(@PathVariable("id") int id){
-		return this.mentorshipService.findByMenteeId(id);
+	//@Secured(ROLE_ADMIN)
+	@GetMapping("/mentorships/getByMenteeId/{menteeId}")
+	public List<Mentorship> getByMenteeId(@PathVariable("menteeId") int menteeId){
+		return this.mentorshipService.findByMenteeId(menteeId);
 	}
 	
-	@Secured(ROLE_ADMIN)
-	@GetMapping("/mentorships/getByMentorId/{id}")
-	public List<Mentorship> getByMentorId(@PathVariable("id") int id){
-		return this.mentorshipService.findByMentorId(id);
+	//@Secured(ROLE_ADMIN)
+	@GetMapping("/mentorships/getByMentorId/{mentorId}")
+	public List<Mentorship> findByMentorId(@PathVariable("mentorId") int mentorId){
+		return this.mentorshipService.findByMentorId(mentorId);
 	}
 	
 	
-	@Secured(ROLE_ADMIN)
+	//@Secured(ROLE_ADMIN)
 	@PostMapping("/mentorships/add")
 	public String addMentorship(@RequestBody Mentorship mentorship) {
 		this.mentorshipService.saveOrUpdateMentorship(mentorship);
