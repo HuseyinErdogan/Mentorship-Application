@@ -31,3 +31,17 @@ label {
   -webkit-border-radius: 50%;
   border-radius: 50%;
 }
+/* .center {
+  width: 100%;
+  text-align: center;
+  border: solid 1px black;
+
+}
+
+.center-inner{
+  display: inline-block;
+} */
+
+.top-50{
+  margin-top: 50px;
+}

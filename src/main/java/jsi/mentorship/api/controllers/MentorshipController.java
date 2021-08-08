@@ -14,8 +14,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import jsi.mentorship.business.abstracts.MentorshipService;
-
+import jsi.mentorship.business.abstracts.UserService;
 import jsi.mentorship.models.concretes.Mentorship;
+import jsi.mentorship.models.concretes.User;
 
 
 
@@ -30,10 +31,18 @@ public class MentorshipController {
 	@Autowired
 	private MentorshipService mentorshipService;
 	
+	@Autowired
+	private UserService userService;
+	
 	//@Secured({ROLE_USER, ROLE_ADMIN})
 	@GetMapping("/mentorships")
 	public List<Mentorship>  getAllMentorships(){
 		return this.mentorshipService.findAll();
+	}
+	
+	@GetMapping("/mentorships/get/{id}")
+	public Mentorship getById(@PathVariable("id") int id){
+		return this.mentorshipService.findById(id);
 	}
 	
 	//@Secured(ROLE_ADMIN)
@@ -56,7 +65,15 @@ public class MentorshipController {
 		return "işlem başarılı";
 	}
 	
-
+	@GetMapping("/mentorships/getMentor/{id}")
+	public User getMentorByMentorshipId(@PathVariable("id") int id){
+		return this.mentorshipService.findMentorFromMentorshipById(id);
+	}
+	@GetMapping("/mentorships/getMentee/{id}")
+	public User getMenteeByMentorshipId(@PathVariable("id") int id){
+		return this.mentorshipService.findMenteeFromMentorshipById(id);
+	}
+	
 	
 
 	

@@ -7,13 +7,18 @@ import org.springframework.stereotype.Service;
 
 import jsi.mentorship.business.abstracts.MentorshipService;
 import jsi.mentorship.dataAccess.MentorshipRepository;
+import jsi.mentorship.dataAccess.UserRepository;
 import jsi.mentorship.models.concretes.Mentorship;
+import jsi.mentorship.models.concretes.User;
 
 @Service
 public class MentorshipManager implements MentorshipService{
-
+	
 	@Autowired
 	private MentorshipRepository mentorshipRepository;
+	
+	@Autowired
+	private UserRepository userRepository;
 	
 	@Override
 	public List<Mentorship> findAll() {
@@ -38,6 +43,23 @@ public class MentorshipManager implements MentorshipService{
 	@Override
 	public void deleteMentorshipById(int id) {
 		this.mentorshipRepository.deleteById(id);;	
+	}
+
+	@Override
+	public Mentorship findById(int id) {
+		return this.mentorshipRepository.findById(id).get();
+	}
+	
+	@Override
+	public User findMentorFromMentorshipById(int id) {
+		Mentorship mentorship = mentorshipRepository.findById(id).get();
+		return this.userRepository.findByUserId(mentorship.getMentorId());
+	}
+
+	@Override
+	public User findMenteeFromMentorshipById(int id) {
+		Mentorship mentorship = mentorshipRepository.findById(id).get();
+		return this.userRepository.findByUserId(mentorship.getMenteeId());
 	}
 
 }

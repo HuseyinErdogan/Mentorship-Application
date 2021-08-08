@@ -11,6 +11,7 @@ import Profile from "../components/Profile";
 import MenteePage from "./MenteePage";
 import MentorPage from "./MentorPage";
 import AdminPage from "./AdminPage";
+import MentorshipDetailPage from "./MentorshipDetailPage"
 
 import EventBus from "../common/EventBus";
 
@@ -112,9 +113,10 @@ const Dashboard = () => {
         <Switch>
           <Route exact path="/login" component={Login} />
           <Route exact path="/profile" component={Profile} />
-          <Route path="/mentee" component={MenteePage} />
-          <Route path="/mentor" component={MentorPage} />
-          <Route path="/admin" component={AdminPage} />
+          <Route exact path="/mentee" component={MenteePage} />
+          <Route exact path="/mentor" component={MentorPage} />
+          <Route exact path="/admin" component={AdminPage} />
+          <Route exact path="/mentorshipdetail/:id" component={MentorshipDetailPage} />
         </Switch>
       </div>
 

@@ -50,7 +50,6 @@ public class LoginController {
         //JwtUserDetails userDetails = new JwtUserDetails();
         //userDetails.setUsername(authenticationRequest.getUsername());
         
-        final String role = userDetails.getRole().getName();
         final String token = jwtTokenUtil.generateToken(userDetails);
         
         return ResponseEntity.ok(new JwtResponse(token, userDetails));

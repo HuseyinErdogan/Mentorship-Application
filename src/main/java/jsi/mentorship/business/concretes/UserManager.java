@@ -6,15 +6,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import jsi.mentorship.business.abstracts.UserService;
+import jsi.mentorship.dataAccess.MentorshipRepository;
 import jsi.mentorship.dataAccess.UserRepository;
+import jsi.mentorship.models.concretes.Mentorship;
 import jsi.mentorship.models.concretes.User;
 
 @Service
 public class UserManager implements UserService{
 	
 	@Autowired
-	private UserRepository userRepository;
-	
+	private UserRepository userRepository;	
 
 	@Override
 	public List<User> findAll() {
@@ -55,5 +56,6 @@ public class UserManager implements UserService{
 				return true;	
 		return false;
 	}
+
 
 }

@@ -2,6 +2,8 @@ import React from "react";
 import AuthService from "../services/auth.service";
 import { Label } from 'semantic-ui-react'
 
+import UserService from '../services/user.service'
+
 const Profile = () => {
   const currentUser = AuthService.getCurrentUser();
   const currentAccessToken = AuthService.getCurrentAccessToken();
