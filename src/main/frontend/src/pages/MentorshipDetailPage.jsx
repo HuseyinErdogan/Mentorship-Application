@@ -49,7 +49,6 @@ function MentorshipDetailPage() {
   const panes = [];
   return (
     <Container>
-      {console.log(mentor)}
       <Grid celled="internally">
         <Grid.Row>
           <Grid.Column textAlign="center" width={5}>

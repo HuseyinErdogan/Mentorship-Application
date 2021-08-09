@@ -8,6 +8,5 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Subsubject {
-	private int subsubjectId;
 	private String subsubjectName;
 }

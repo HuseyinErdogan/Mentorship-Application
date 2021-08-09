@@ -31,11 +31,12 @@ const getMenteeFromMentorshipById = (id) => {
 }
 
 
+
 export default {
     getMentorships,
     getMentorshipsByMentorId,
     getMentorshipsByMenteeId,
     getMentorshipById,
     getMentorFromMentorshipById,
-    getMenteeFromMentorshipById
+    getMenteeFromMentorshipById,
 }

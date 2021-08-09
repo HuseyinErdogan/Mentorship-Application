@@ -12,8 +12,11 @@ import MenteePage from "./MenteePage";
 import MentorPage from "./MentorPage";
 import AdminPage from "./AdminPage";
 import MentorshipDetailPage from "./MentorshipDetailPage"
+import AdminSubjectPage from "./AdminSubjectPage"
+import MentorAppealListPage from "./MentorAppealListPage"
 
 import EventBus from "../common/EventBus";
+import BecomeMentorForm from "./BecomeMentorForm";
 
 const Dashboard = () => {
 
@@ -117,6 +120,9 @@ const Dashboard = () => {
           <Route exact path="/mentor" component={MentorPage} />
           <Route exact path="/admin" component={AdminPage} />
           <Route exact path="/mentorshipdetail/:id" component={MentorshipDetailPage} />
+          <Route exact path="/admin/subjects" component={AdminSubjectPage} />
+          <Route exact path="/admin/mentorAppeals" component={MentorAppealListPage} />
+          <Route exact path="/mentee/becomeMentor" component={BecomeMentorForm} />
         </Switch>
       </div>
 

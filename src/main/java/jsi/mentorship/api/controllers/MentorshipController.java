@@ -31,8 +31,6 @@ public class MentorshipController {
 	@Autowired
 	private MentorshipService mentorshipService;
 	
-	@Autowired
-	private UserService userService;
 	
 	//@Secured({ROLE_USER, ROLE_ADMIN})
 	@GetMapping("/mentorships")

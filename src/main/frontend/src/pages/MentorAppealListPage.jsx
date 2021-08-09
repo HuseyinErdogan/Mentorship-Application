@@ -7,7 +7,7 @@ import {
     Container
 } from "semantic-ui-react";
 
-export default function MentorApplicationList() {
+export default function MentorAppealListPage() {
   return (
     <Container>
       <Grid celled="internally">

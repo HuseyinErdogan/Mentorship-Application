@@ -9,4 +9,5 @@ public interface SubjectService {
 	Subject saveOrUpdateSubject(Subject subject);
 	Subject findBySubjectName(String subjectName);
 	String deleteSubjectBySubjectName(String subjectName);
+	Subject addSubsubjectToSubject(String subjectName, String subsubjectName);
 }

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.Transient;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import lombok.AllArgsConstructor;
@@ -14,6 +15,11 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Document(collection = "subjects")
 public class Subject {
+	
+	@Transient
+	public static final String SEQUENCE_NAME = "subject_sequence";
+	
+	
 	@Id
 	private int subjectId;	
 	private String subjectName;
@@ -23,12 +29,4 @@ public class Subject {
 		this.subsubjects = new ArrayList<Subsubject>();
 	}
 	
-	public Subsubject findSubsubjectFromSubject(int id) {
-		for (Subsubject subsubject : subsubjects) {
-			if(subsubject.getSubsubjectId() == id)
-				return subsubject;
-		}
-		
-		return null;
-	}
 }

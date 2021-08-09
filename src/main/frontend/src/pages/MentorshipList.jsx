@@ -10,7 +10,6 @@ class MentorshipList extends React.Component {
     
 
     render(){
-      const {ment} = this.props 
       return (
       <Item>
         asdadasdasdasd
