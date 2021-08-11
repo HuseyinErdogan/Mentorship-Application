@@ -12,15 +12,22 @@ const addSubject = (subject) => {
     return axios
       .post(API_URL+"/add/", subject, { headers: authHeader() })
   
-  };
+};
 
 
 const addSubsubjectToSubject = (subjectName, subsubjectName) => {
   return axios.get(API_URL + "/addSubsubject/"+subjectName+"/"+subsubjectName, { headers: authHeader() });
 };
 
+
+const getSubsubjects = (subject) => {
+  return subject.subsubjects;
+}
+
+
 export default {
   getSubjects,
   addSubject,
-  addSubsubjectToSubject
+  addSubsubjectToSubject,
+  getSubsubjects
 };

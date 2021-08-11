@@ -21,7 +21,7 @@ export default function AdminSubjectPage(props) {
 
   useEffect(() => {
     SubjectService.getSubjects().then((result) => setSubjects(result.data));
-  }, []);
+  });
 
   let rootPanels = [];
 

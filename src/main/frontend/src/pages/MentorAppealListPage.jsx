@@ -1,92 +1,87 @@
-import React from "react";
-import { 
-    Button,
-    Card,
-    Grid,
-    Image,
-    Container
-} from "semantic-ui-react";
+import React, { useEffect, useState } from "react";
+
+import AppealService from "../services/appeal.service";
+import UserService from"../services/user.service";
+
+import { Button, Card, Grid, Image, Container, Label, Header } from "semantic-ui-react";
 
 export default function MentorAppealListPage() {
+
+  const [appeals, setAppeals] = useState([]);
+
+
+  useEffect(() => {
+    AppealService.getAllBecomeMentorAppeals().then((result) => {
+      setAppeals(result.data);
+    });
+  });
+
+
+  const handleApproveButton = (appeal) =>{
+      AppealService.makeMenteeMentor(appeal);
+      AppealService.deleteByAppealId(appeal.appealId)
+  }
+  const handleDeclineButton = (appeal) =>{
+      AppealService.deleteByAppealId(appeal.appealId)
+  }
+
+
   return (
     <Container>
-      <Grid celled="internally">
-        <Card.Group>
-          <Card>
-            <Card.Content>
-              <Image
-                floated="right"
-                size="mini"
-                src="https://react.semantic-ui.com/images/avatar/large/steve.jpg"
-              />
-              <Card.Header>Steve Sanders</Card.Header>
-              <Card.Meta>Friends of Elliot</Card.Meta>
-              <Card.Description>
-                Steve wants to add you to the group{" "}
-                <strong>best friends</strong>
-              </Card.Description>
-            </Card.Content>
-            <Card.Content extra>
-              <div className="ui two buttons">
-                <Button basic color="green">
-                  Approve
-                </Button>
-                <Button basic color="red">
-                  Decline
-                </Button>
-              </div>
-            </Card.Content>
-          </Card>
-          <Card>
-            <Card.Content>
-              <Image
-                floated="right"
-                size="mini"
-                src="https://react.semantic-ui.com/images/avatar/large/molly.png"
-              />
-              <Card.Header>Molly Thomas</Card.Header>
-              <Card.Meta>New User</Card.Meta>
-              <Card.Description>
-                Molly wants to add you to the group <strong>musicians</strong>
-              </Card.Description>
-            </Card.Content>
-            <Card.Content extra>
-              <div className="ui two buttons">
-                <Button basic color="green">
-                  Approve
-                </Button>
-                <Button basic color="red">
-                  Decline
-                </Button>
-              </div>
-            </Card.Content>
-          </Card>
-          <Card>
-            <Card.Content>
-              <Image
-                floated="right"
-                size="mini"
-                src="https://react.semantic-ui.com/images/avatar/large/jenny.jpg"
-              />
-              <Card.Header>Jenny Lawrence</Card.Header>
-              <Card.Meta>New User</Card.Meta>
-              <Card.Description>
-                Jenny requested permission to view your contact details
-              </Card.Description>
-            </Card.Content>
-            <Card.Content extra>
-              <div className="ui two buttons">
-                <Button basic color="green">
-                  Approve
-                </Button>
-                <Button basic color="red">
-                  Decline
-                </Button>
-              </div>
-            </Card.Content>
-          </Card>
-        </Card.Group>
+      <Grid  celled>
+        <Grid.Row>
+          
+          <Grid.Column textAlign='center'>
+            <Header size='large'>MENTOR APPLICATIONS</Header>
+          </Grid.Column>
+        </Grid.Row>
+        <Grid.Row columns={2}>
+
+
+          {appeals && appeals.map((appeal) => (
+            <Grid.Column width={8} className='my-3'>
+            <Card className='w-100'>
+              <Card.Content className='my-3'>
+                <Image
+                  floated="right"
+                  size="mini"
+                  src="https://react.semantic-ui.com/images/avatar/large/molly.png"
+                />
+                <Card.Header>{appeal.user.firstName+" "+appeal.user.lastName}</Card.Header>
+                <Card.Meta>{appeal.user.username}</Card.Meta>
+                <Card.Description className='py-2'>
+                  {appeal.description}
+                </Card.Description>
+                <Card.Meta>
+                {appeal.subsubjects.map((subsubject)=><Label color='teal'>{subsubject.subsubjectName}</Label>)}
+                </Card.Meta>
+              </Card.Content>
+              <Card.Content extra>
+                <div className="ui two buttons">
+                  <Button basic color="green" onClick={()=>handleApproveButton(appeal)}>
+                    Approve
+                  </Button>
+                  <Button basic color="red" onClick={()=> handleDeclineButton(appeal)}>
+                    Decline
+                  </Button>
+                </div>
+              </Card.Content>
+            </Card>
+          </Grid.Column>
+          )
+            
+          )}
+
+
+
+
+
+          
+        </Grid.Row>
       </Grid>
+
+
+      
     </Container>
   );
 }

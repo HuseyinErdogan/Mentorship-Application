@@ -11,10 +11,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import jsi.mentorship.business.abstracts.UserService;
+import jsi.mentorship.models.concretes.Subsubject;
 import jsi.mentorship.models.concretes.User;
 
 
@@ -53,18 +54,10 @@ public class UserController {
 	
 	//@Secured(ROLE_ADMIN)
 	@PostMapping("/users/add")
-	public String addMentorship(@RequestBody User user) {
+	public String addUser(@RequestBody User user) {
 		this.userService.saveOrUpdateUser(user);
 		return "işlem başarılı";
 	}
-	//@Secured(ROLE_ADMIN)
-	@PostMapping("/users/authenticate")
-	public String userAuthenticate(@RequestBody User user) {
-//		
-		
-		return "işlem başarılı";
-	}
-	
 
 	
 }

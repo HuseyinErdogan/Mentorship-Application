@@ -42,6 +42,7 @@ export default function AdminPage({match}) {
           </Grid.Row>
         </Grid>
       </Segment>
+
     </Container>
   );
 }

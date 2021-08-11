@@ -38,14 +38,19 @@ export default function MenteePage({match}) {
           <Header size='huge'>Mentorships Taken</Header>
         </Grid.Column>
         <Grid.Column width={6}>
-        <Button as={Link} size='large' to={`${url}/becomeMentor`}>Apply For Become Mentor</Button>
+          { currentUser.role.name=="MENTEE"&& (<Button as={Link} size='large'  to={
+    { 
+        pathname: `${url}/becomeMentor`,
+        user: currentUser
+    }}>Apply For Become Mentor</Button>)}
+        
       </Grid.Column>
       </Grid.Row>
       {mentorshipsTaken.map((mentorship) => (
         <Grid.Row columns={3}>
           <Grid.Column width={2}></Grid.Column>
           <Grid.Column width={8} className='d-flex justify-content-center'>
-            
+          
             <Item.Group>
               <Item
                 as={Link}

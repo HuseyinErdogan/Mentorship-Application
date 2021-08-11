@@ -17,6 +17,7 @@ import MentorAppealListPage from "./MentorAppealListPage"
 
 import EventBus from "../common/EventBus";
 import BecomeMentorForm from "./BecomeMentorForm";
+import { Container } from "semantic-ui-react";
 
 const Dashboard = () => {
 
@@ -57,6 +58,7 @@ const Dashboard = () => {
   return (
     <div>
       <nav className="navbar navbar-expand navbar-dark bg-dark">
+        <Container>
         <Link to={"/"} className="navbar-brand">
           HE-Mentorship
         </Link>
@@ -110,8 +112,9 @@ const Dashboard = () => {
             </li>
           </div>
         )}
+        </Container>
       </nav>
-
+      
       <div className="container mt-3">
         <Switch>
           <Route exact path="/login" component={Login} />

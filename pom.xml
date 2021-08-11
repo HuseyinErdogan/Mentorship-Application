@@ -84,6 +84,13 @@
 		  <artifactId>jjwt</artifactId>
 		  <version>0.9.1</version>
 		</dependency>	
+		
+		<dependency>
+            <groupId>org.springframework.data</groupId>
+            <artifactId>spring-data-mongodb</artifactId>
+        </dependency>
+		
+		
 		<!-- API -->
 		<dependency>
 		    <groupId>jakarta.xml.bind</groupId>
