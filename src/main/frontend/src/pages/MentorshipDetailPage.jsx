@@ -18,19 +18,44 @@ import {
   Grid,
   Header,
   Tab,
-  Rating
+  Rating,
+  Button,
+  Label,
+  Message,
+  Form,
+  TextArea,
 } from "semantic-ui-react";
+import AuthService from "../services/auth.service";
 
-function MentorshipDetailPage() {
+function MentorshipDetailPage({ match }) {
+  const currentUser = AuthService.getCurrentUser();
+  const ROLE_MENTOR = "MENTOR";
+  const ROLE_MENTEE = "MENTEE";
+  
+
+
+  
+
+  const { url } = match;
+
   const { id } = useParams();
 
+  const [currentRole, setCurrentRole] = useState(ROLE_MENTOR);
   const [mentorship, setMentorship] = useState(null);
   const [mentor, setMentor] = useState(null);
   const [mentee, setMentee] = useState(null);
 
+  var currentPhase = 1;
+
+  const [finishPhase, setFinishPhase] = useState(false);
+
   useEffect(() => {
-    MentorshipService.getMentorshipById(id).then((result) =>
-      setMentorship(result.data)
+    MentorshipService.getMentorshipById(id).then((result) =>{
+      setMentorship(result.data);
+      if(result.data.menteeId==currentUser.userId){
+        setCurrentRole(ROLE_MENTEE);
+      }
+    }
     );
   }, []);
 
@@ -45,6 +70,19 @@ function MentorshipDetailPage() {
       setMentee(result.data)
     );
   }, []);
+
+  const handleSubmit = () => {
+    MentorshipService.addMentorship(mentorship).then((result) =>
+      console.log(result.data)
+    );
+  };
+
+  var activeIndexTemp=0;
+
+  const handleTabChange = (e,data) => {
+    activeIndexTemp = data.activeIndex;
+    activeIndexTemp =2;
+  }
 
   const panes = [];
   return (
@@ -143,55 +181,395 @@ function MentorshipDetailPage() {
           </Grid.Column>
         </Grid.Row>
 
-        <Grid.Row>
-          <div className="my-5">
-            <Step.Group className="w-100">
-              {mentorship &&
-                mentorship.phases.map((phase) => {
-                  {panes.push({
-                    menuItem: phase.name,
-                    render: () => (
-                      <Tab.Pane>
-                        Mentor comment: {phase.mentorComment} <br/>
-                        Mentee comment: {phase.menteeComment} <br/>
+        {mentorship && mentorship.phases.length > 0 && (
+          <Grid.Row>
+            <div className="my-5">
+              <Step.Group className="w-100">
+                {mentorship &&
+                  mentorship.phases.map((phase) => {
+                    {
+                      if (phase.done) {
+                        currentPhase = phase.phaseNumber + 1;
+                      }
 
-                        Mentor Rating: 
-                        <Rating maxRating={5} rating={phase.mentorAssesment} icon='star' size='small' />
-                        <br />
-                        Mentee Rating: 
-                        <Rating maxRating={5} rating={phase.menteeAssesment} icon='star' size='small' />
-                        <br />
-                        <br />
+                      panes.push({
+                        menuItem:
+                          "Phase " + phase.phaseNumber + ": " + phase.phaseName,
+                        render: () => (
+                          <Tab.Pane>
+                            <Grid divided="vertically" celled="internally">
 
-                      </Tab.Pane>
-                    ),
-                  })
-                
-                }
-                  
-                  return(
-                  
-                  <Step>
-                    <Icon
-                      name={phase.done ? "check circle" : "hourglass half"}
-                    />
-                    <Step.Content>
-                      <Step.Title>{phase.name}</Step.Title>
-                      <Step.Description>
-                        Starting Date: 01.01.2001
-                      </Step.Description>
-                    </Step.Content>
-                    
-                  </Step>
-                )})}
-            </Step.Group>
-          </div>
-        </Grid.Row>
-        <Grid.Row>
-          <Container className="my-5">
-          <Tab menu={{ fluid: true, vertical: true, tabular: 'left' }} panes={panes} />
-          </Container>
-        </Grid.Row>
+
+                              {currentPhase<phase.phaseNumber && (
+                                <Grid.Row centered verticalAlign='middle' className='mt-2'>
+
+                                  <Message color="red" className="w-100 h-100" size='massive'>
+                                  This phase process has not yet begun.
+                                  </Message>
+                                
+                              </Grid.Row>
+                              )}
+
+
+
+                              {currentPhase>=phase.phaseNumber && (<Grid.Row columns={2} centered>
+                                <Grid.Column width={7} textAlign="center">
+                                  <Header size="small">Starting Date</Header>
+                                  <Label color="green" horizontal>
+                                    {phase.startingDate}
+                                  </Label>
+                                </Grid.Column>
+                                <Grid.Column width={7} textAlign="center">
+                                  <Header size="small">Finishing Date</Header>
+                                  <Label color="red" horizontal>
+                                    {phase.startingDate}
+                                  </Label>
+                                </Grid.Column>
+                              </Grid.Row>)}
+
+                              {(phase.mentorDone || phase.menteeDone) && (
+                                <Grid.Row centered>
+                                  <Grid.Column
+                                    width={8}
+                                    textAlign="center"
+                                    centered
+                                  >
+                                    <Message color="green" className="w-100">
+                                      The phase is done.
+                                    </Message>
+                                  </Grid.Column>
+                                </Grid.Row>
+                              )}
+
+                              {(phase.mentorDone || phase.menteeDone) && (
+                                <Grid.Row centered columns={2}>
+                                  {/** MENTOR CARD **/}
+                                  <Grid.Column width={7} centered>
+                                    <Grid.Row className="d-flex justify-content-center">
+                                      {mentor &&
+                                        currentRole == ROLE_MENTOR &&
+                                        !phase.mentorDone && (
+                                          <Form>
+                                            <Header size="tiny">
+                                              Please comment on the phase.
+                                            </Header>
+
+                                            <TextArea
+                                              placeholder="Tell us more"
+                                              onChange={(e) =>
+                                                (phase.mentorComment =
+                                                  e.target.value)
+                                              }
+                                            />
+
+                                            <Header size="tiny">
+                                              Rate your experince.
+                                            </Header>
+
+                                            <Rating
+                                              maxRating={5}
+                                              defaultRating={3}
+                                              icon="star"
+                                              size="large"
+                                              onRate={(e, { rating }) => {
+                                                phase.mentorAssesment = rating;
+                                              }}
+                                            />
+
+                                            <Form.Button
+                                              color="teal"
+                                              className="mt-2"
+                                              onClick={() => {
+                                                phase.mentorDone = true;
+                                                phase.done = true;
+                                                handleSubmit(phase);
+                                              }}
+                                            >
+                                              SUBMIT
+                                            </Form.Button>
+                                          </Form>
+                                        )}
+                                      {mentor &&
+                                        (currentRole == ROLE_MENTEE ||
+                                          (currentRole == ROLE_MENTOR &&
+                                            phase.mentorDone)) && (
+                                          <Card>
+                                            <Card.Content
+                                              header={
+                                                mentor.firstName +
+                                                " " +
+                                                mentor.lastName
+                                              }
+                                              meta="Mentor"
+                                            />
+
+                                            <Card.Content
+                                              description={phase.mentorComment}
+                                            />
+                                            <Card.Content
+                                              extra
+                                              centered
+                                              className="d-flex justify-content-center"
+                                            >
+                                              <Rating
+                                                maxRating={5}
+                                                defaultRating={
+                                                  phase.mentorAssesment
+                                                }
+                                                icon="star"
+                                                size="huge"
+                                                disabled
+                                              />
+                                            </Card.Content>
+                                          </Card>
+                                        )}
+                                    </Grid.Row>
+                                  </Grid.Column>
+
+                                  {/** MENTEE CARD **/}
+                                  <Grid.Column width={7}>
+                                    <Grid.Row className="d-flex justify-content-center">
+                                      {mentee &&
+                                        currentRole == ROLE_MENTEE &&
+                                        !phase.menteeDone && (
+                                          <Form>
+                                            <Header size="tiny">
+                                              Please comment on the phase.
+                                            </Header>
+
+                                            <TextArea
+                                              placeholder="Tell us more"
+                                              onChange={(e) =>
+                                                (phase.menteeComment =
+                                                  e.target.value)
+                                              }
+                                            />
+
+                                            <Header size="tiny">
+                                              Rate your experince.
+                                            </Header>
+
+                                            <Rating
+                                              maxRating={5}
+                                              defaultRating={3}
+                                              icon="star"
+                                              size="large"
+                                              onRate={(e, { rating }) => {
+                                                phase.menteeAssesment = rating;
+                                              }}
+                                            />
+
+                                            <Form.Button
+                                              color="teal"
+                                              className="mt-2"
+                                              onClick={() => {
+                                                phase.menteeDone = true;
+                                                phase.done = true;
+                                                handleSubmit(phase);
+                                              }}
+                                            >
+                                              SUBMIT
+                                            </Form.Button>
+                                          </Form>
+                                        )}
+                                      {mentee &&
+                                        (currentRole == ROLE_MENTOR ||
+                                          (currentRole == ROLE_MENTEE &&
+                                            phase.menteeDone)) && (
+                                          <Card>
+                                            <Card.Content
+                                              header={
+                                                mentee.firstName +
+                                                " " +
+                                                mentee.lastName
+                                              }
+                                              meta="Mentee"
+                                            />
+
+                                            <Card.Content
+                                              description={phase.menteeComment}
+                                            />
+                                            <Card.Content
+                                              extra
+                                              centered
+                                              className="d-flex justify-content-center"
+                                            >
+                                              <Rating
+                                                maxRating={5}
+                                                defaultRating={
+                                                  phase.menteeAssesment
+                                                }
+                                                icon="star"
+                                                size="huge"
+                                                disabled
+                                              />
+                                            </Card.Content>
+                                          </Card>
+                                        )}
+                                    </Grid.Row>
+                                  </Grid.Column>
+                                </Grid.Row>
+                              )}
+
+                              {!phase.mentorDone && !phase.menteeDone && currentPhase==phase.phaseNumber && (
+                                <Grid.Row centered>
+                                  <Grid.Column width={8} textAlign="center">
+                                    <Message color="teal">
+                                      The phase process is still ongoing.
+                                    </Message>
+                                  </Grid.Column>
+                                </Grid.Row>
+                              )}
+                              {!phase.mentorDone && !phase.menteeDone && currentPhase==phase.phaseNumber &&  (
+                                <Grid.Row centered>
+                                  <Grid.Column width={6} textAlign="center">
+                                    <Button
+                                      onClick={() => setFinishPhase(true)}
+                                      color="teal"
+                                      className="w-100 h-100"
+                                    >
+                                      I WANT TO FINISIH PHASE
+                                    </Button>
+                                  </Grid.Column>
+                                </Grid.Row>
+                              )}
+                              {currentPhase == phase.phaseNumber &&
+                                finishPhase && (
+                                  <Grid.Row centered>
+                                    <Grid.Column width={14} textAlign="center">
+                                      <Form>
+                                        <Header size="tiny">
+                                          Please comment on the phase.
+                                        </Header>
+                                        {currentRole == ROLE_MENTOR && (
+                                          <TextArea
+                                            placeholder="Tell us more"
+                                            onChange={(e) =>
+                                              (phase.mentorComment =
+                                                e.target.value)
+                                            }
+                                          />
+                                        )}
+                                        {currentRole == ROLE_MENTEE && (
+                                          <TextArea
+                                            placeholder="Tell us more"
+                                            onChange={(e) =>
+                                              (phase.menteeComment =
+                                                e.target.value)
+                                            }
+                                          />
+                                        )}
+                                        <Header size="tiny">
+                                          Rate your experince.
+                                        </Header>
+                                        {currentRole == ROLE_MENTOR && (
+                                          <Rating
+                                            maxRating={5}
+                                            defaultRating={3}
+                                            icon="star"
+                                            size="large"
+                                            onRate={(e, { rating }) => {
+                                              phase.mentorAssesment = rating;
+                                            }}
+                                          />
+                                        )}
+                                        {currentRole == ROLE_MENTEE && (
+                                          <Rating
+                                            maxRating={5}
+                                            defaultRating={3}
+                                            icon="star"
+                                            size="large"
+                                            onRate={(e, { rating }) => {
+                                              phase.menteeAssesment = rating;
+                                            }}
+                                          />
+                                        )}
+                                        {currentRole == ROLE_MENTOR && (
+                                          <Form.Button
+                                            color="teal"
+                                            className="mt-2"
+                                            onClick={() => {
+                                              phase.mentorDone = true;
+                                              phase.done = true;
+                                              handleSubmit(phase);
+                                            }}
+                                          >
+                                            SUBMIT
+                                          </Form.Button>
+                                        )}
+                                        {currentRole == ROLE_MENTEE && (
+                                          <Form.Button
+                                            color="teal"
+                                            className="mt-2"
+                                            onClick={() => {
+                                              phase.menteeDone = true;
+                                              phase.done = true;
+                                              currentPhase= phase.phaseName;
+                                              handleSubmit(phase);
+                                            }}
+                                          >
+                                            SUBMIT
+                                          </Form.Button>
+                                        )}
+                                      </Form>
+                                    </Grid.Column>
+                                  </Grid.Row>
+                                )}
+                            </Grid>
+                          </Tab.Pane>
+                        ),
+                      });
+                    }
+
+                    return (
+                      <Step>
+                        <Icon
+                          name={phase.done ? "check circle" : "hourglass half"}
+                        />
+                        <Step.Content>
+                          <Step.Title>{phase.phaseName}</Step.Title>
+                          <Step.Description>
+                            Starting Date: {phase.startingDate}
+                          </Step.Description>
+                        </Step.Content>
+                      </Step>
+                    );
+                  })}
+              </Step.Group>
+            </div>
+          </Grid.Row>
+        )}
+        {mentorship && mentorship.phases.length > 0 && (
+          <Grid.Row>
+            <Container className="my-5">
+              <Tab
+                menu={{ fluid: true, vertical: true, tabular: "left" }}
+                panes={panes}
+                onTabChange={handleTabChange}
+                defaultActiveIndex={currentPhase-1}
+              />
+            </Container>
+          </Grid.Row>
+        )}
+
+        {mentorship && mentorship.phases.length == 0 && (
+          <Grid.Row centered>
+            <Grid.Column width={9}>
+              <Button
+                as={Link}
+                to={{
+                  pathname: `${url}/processPlanning`,
+                  mnt: mentorship,
+                }}
+                color="teal"
+                className="w-100"
+                size="huge"
+              >
+                PLAN PROCESS
+              </Button>
+            </Grid.Column>
+          </Grid.Row>
+        )}
       </Grid>
     </Container>
   );

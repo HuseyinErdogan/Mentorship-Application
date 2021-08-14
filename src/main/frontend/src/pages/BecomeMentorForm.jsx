@@ -44,7 +44,7 @@ export default function BecomeMentorForm(props){
       subsubjects: selectedSubsubjects
     }
 
-    AppealService.addBecomeMentorAppeal(becomeMentorAppeal).then(()=>console.log("BAŞARILI"));
+    AppealService.addBecomeMentorAppeal(becomeMentorAppeal);
 
 
 
@@ -63,7 +63,7 @@ export default function BecomeMentorForm(props){
     SubjectService.getSubjects().then((result) => {
       setSubjects(result.data);
     });
-  }, []);
+  });
 
   return (
     <Container className="mt-5">

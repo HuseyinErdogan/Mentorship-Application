@@ -14,6 +14,7 @@ import AdminPage from "./AdminPage";
 import MentorshipDetailPage from "./MentorshipDetailPage"
 import AdminSubjectPage from "./AdminSubjectPage"
 import MentorAppealListPage from "./MentorAppealListPage"
+import ProcessPlanning from "./ProcessPlanning"
 
 import EventBus from "../common/EventBus";
 import BecomeMentorForm from "./BecomeMentorForm";
@@ -126,6 +127,7 @@ const Dashboard = () => {
           <Route exact path="/admin/subjects" component={AdminSubjectPage} />
           <Route exact path="/admin/mentorAppeals" component={MentorAppealListPage} />
           <Route exact path="/mentee/becomeMentor" component={BecomeMentorForm} />
+          <Route exact path="/mentorshipdetail/:id/processPlanning" component={ProcessPlanning} />
         </Switch>
       </div>
 

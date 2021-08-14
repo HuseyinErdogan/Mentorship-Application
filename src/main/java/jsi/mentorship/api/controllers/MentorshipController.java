@@ -17,6 +17,7 @@ import jsi.mentorship.business.abstracts.MentorshipService;
 import jsi.mentorship.business.abstracts.UserService;
 import jsi.mentorship.models.concretes.Mentorship;
 import jsi.mentorship.models.concretes.User;
+import jsi.mentorship.models.wrappers.MentorshipPhases;
 
 
 
@@ -67,14 +68,17 @@ public class MentorshipController {
 	public User getMentorByMentorshipId(@PathVariable("id") int id){
 		return this.mentorshipService.findMentorFromMentorshipById(id);
 	}
+	
 	@GetMapping("/mentorships/getMentee/{id}")
 	public User getMenteeByMentorshipId(@PathVariable("id") int id){
 		return this.mentorshipService.findMenteeFromMentorshipById(id);
 	}
 	
-	
-
-	
+	@PostMapping("/mentorships/addPhases")
+	public String addPhasesToMentorship(@RequestBody MentorshipPhases mentorshipPhases) {
+		this.mentorshipService.addPhasesToMentorship(mentorshipPhases);
+		return "işlem başarılı";
+	}	
 
 
 

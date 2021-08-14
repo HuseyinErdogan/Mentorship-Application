@@ -33,6 +33,10 @@ const logout = () => {
 const getCurrentUser = () => {
   return JSON.parse(localStorage.getItem("user"));
 };
+const getCurrentUserRole = () => {
+  const user = JSON.parse(localStorage.getItem("user"));
+  return user.role.name;
+};
 const getCurrentAccessToken = () => {
   return JSON.parse(localStorage.getItem("accessToken"));
 };
@@ -41,5 +45,6 @@ export default {
   login,
   logout,
   getCurrentUser,
-  getCurrentAccessToken
+  getCurrentAccessToken,
+  getCurrentUserRole
 };

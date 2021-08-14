@@ -9,7 +9,8 @@ import lombok.Data;
 @AllArgsConstructor
 public class Phase {
 	private int phaseNumber;
-	private String name;
+	private String phaseName;
+	private String phaseDetails;
 	private boolean isDone;
 	private Date startingDate;
 	private Date finishingDate;
@@ -18,8 +19,13 @@ public class Phase {
 	private String menteeComment;
 	private int menteeAssesment;
 	
+	private boolean isMentorDone;
+	private boolean isMenteeDone;
+	
 	public Phase() {
 		this.isDone=false;
+		this.isMenteeDone=false;
+		this.isMentorDone=false;
 	}
 	
 }
