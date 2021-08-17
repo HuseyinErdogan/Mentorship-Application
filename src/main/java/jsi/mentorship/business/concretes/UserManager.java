@@ -1,15 +1,22 @@
 package jsi.mentorship.business.concretes;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 import org.springframework.stereotype.Service;
 
 import jsi.mentorship.business.abstracts.UserService;
+import jsi.mentorship.core.utilities.results.DataResult;
+import jsi.mentorship.core.utilities.results.Result;
+import jsi.mentorship.core.utilities.results.SuccessDataResult;
+import jsi.mentorship.core.utilities.results.SuccessResult;
 import jsi.mentorship.dataAccess.UserRepository;
-
+import jsi.mentorship.models.concretes.Subsubject;
 import jsi.mentorship.models.concretes.User;
 
+@EnableMongoRepositories(basePackageClasses = UserRepository.class)
 @Service
 public class UserManager implements UserService{
 	
@@ -17,47 +24,59 @@ public class UserManager implements UserService{
 	private UserRepository userRepository;	
 
 	@Override
-	public List<User> findAll() {
-		return this.userRepository.findAll();
+	public DataResult<List<User>> findAll() {
+		return new SuccessDataResult<List<User>>(this.userRepository.findAll(), "Users are successfully founded");
 	}
 
 	@Override
-	public User saveOrUpdateUser(User user) {
-		return this.userRepository.save(user);
+	public DataResult<User> saveOrUpdateUser(User user) {
+		return new SuccessDataResult<User>(this.userRepository.save(user), "User is successfully saved");
+	}
+
+
+	@Override
+	public DataResult<User> findByUserId(int userId) {
+		return new SuccessDataResult<User>(this.userRepository.findByUserId(userId), "User is successfully founded");
 	}
 
 	@Override
-	public User authenticate(String username, String userPassword) {
-		return null;
-	}
-
-	@Override
-	public User findByUserId(int userId) {
-		return this.userRepository.findByUserId(userId);
-	}
-
-	@Override
-	public void deleteUserById(int id) {
+	public Result deleteUserById(int id) {
 		this.userRepository.deleteById(id);
+		return new SuccessResult("User is successfully deleted");
 	}
 
 	@Override
-	public User findByUsername(String userName) {
-		return this.userRepository.findByUsername(userName);
+	public DataResult<User> findByUsername(String userName) {
+		return new SuccessDataResult<User>(this.userRepository.findByUsername(userName));
 	}
 
 	@Override
 	public boolean checkUsernameAndPassword(String username, String password) {
 		
-		User user = this.findByUsername(username);
+		User user = this.findByUsername(username).getData();
 		if(user!=null)
 			if(user.getUserPassword().equals(password))
 				return true;	
 		return false;
 	}
 
-	
-	
+	@Override
+	public DataResult<List<User>> findMentors() {
+		return new SuccessDataResult<List<User>>(this.userRepository.findMentors(),"Mentors are succesfully founded");
+	}
+
+	@Override
+	public DataResult<List<User>> findAllMentorsBySubsubject(String subsubjectName) {
+		
+		List<User> mentors = this.userRepository.findMentors();
+		List<User> result = new ArrayList<User>();
+		for (User user : mentors) {
+			if(user.getRole().getSubsubjectsOfExpertise().contains(new Subsubject(subsubjectName)))
+				result.add(user);
+		}
+		
+		return new SuccessDataResult<List<User>>(result, "Mentors are successfully founded");
+	}
 
 
 }

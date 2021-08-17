@@ -21,6 +21,7 @@ public class MentorshipAppeal {
 	@Id
 	private int appealId;
 	
-	private int mentorId;
-	private int menteeId;
+	private User mentor;
+	private User mentee;
+	private Subsubject subsubject;
 }

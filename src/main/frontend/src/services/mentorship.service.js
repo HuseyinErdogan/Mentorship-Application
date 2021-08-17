@@ -41,6 +41,15 @@ const addMentorship = (mentorship) => {
   return axios.post(API_URL + "/add/", mentorship, { headers: authHeader() });
 };
 
+const getMentorsOldMentorships = (mentorId) => {
+  return axios.get(API_URL + "/getOldMentorships/" + mentorId, { headers: authHeader() });
+}
+const getMentorsActiveMentorships = (mentorId) => {
+  return axios.get(API_URL + "/getActivesByMentor/" + mentorId, { headers: authHeader() });
+}
+const getMenteesActiveMentorships = (menteeId) => {
+  return axios.get(API_URL + "/getActivesByMentee/" + menteeId, { headers: authHeader() });
+}
 export default {
   getMentorships,
   getMentorshipsByMentorId,
@@ -50,4 +59,7 @@ export default {
   getMenteeFromMentorshipById,
   addPhasesToMentorship,
   addMentorship,
+  getMentorsOldMentorships,
+  getMentorsActiveMentorships,
+  getMenteesActiveMentorships
 };

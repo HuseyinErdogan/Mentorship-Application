@@ -19,6 +19,8 @@ import ProcessPlanning from "./ProcessPlanning"
 import EventBus from "../common/EventBus";
 import BecomeMentorForm from "./BecomeMentorForm";
 import { Container } from "semantic-ui-react";
+import SearchMentor from "./SearchMentor";
+import MentorshipAppealsList from "./MentorshipAppealsList";
 
 const Dashboard = () => {
 
@@ -120,13 +122,15 @@ const Dashboard = () => {
         <Switch>
           <Route exact path="/login" component={Login} />
           <Route exact path="/profile" component={Profile} />
-          <Route exact path="/mentee" component={MenteePage} />
-          <Route exact path="/mentor" component={MentorPage} />
           <Route exact path="/admin" component={AdminPage} />
           <Route exact path="/mentorshipdetail/:id" component={MentorshipDetailPage} />
           <Route exact path="/admin/subjects" component={AdminSubjectPage} />
           <Route exact path="/admin/mentorAppeals" component={MentorAppealListPage} />
+          <Route exact path="/mentor" component={MentorPage} />
+          <Route exact path="/mentor/mentorshipAppeals" component={MentorshipAppealsList} />
+          <Route exact path="/mentee" component={MenteePage} />
           <Route exact path="/mentee/becomeMentor" component={BecomeMentorForm} />
+          <Route exact path="/mentee/searchMentor" component={SearchMentor} />
           <Route exact path="/mentorshipdetail/:id/processPlanning" component={ProcessPlanning} />
         </Switch>
       </div>

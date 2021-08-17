@@ -12,14 +12,15 @@ export default function MentorAppealListPage() {
 
   useEffect(() => {
     AppealService.getAllBecomeMentorAppeals().then((result) => {
-      setAppeals(result.data);
+      setAppeals(result.data.data);
     });
   });
 
 
   const handleApproveButton = (appeal) =>{
+
       AppealService.makeMenteeMentor(appeal);
-      AppealService.deleteByAppealId(appeal.appealId)
+      AppealService.deleteByAppealId(appeal.appealId);
   }
   const handleDeclineButton = (appeal) =>{
       AppealService.deleteByAppealId(appeal.appealId)

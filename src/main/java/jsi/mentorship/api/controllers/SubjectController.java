@@ -4,18 +4,20 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import jsi.mentorship.business.abstracts.SubjectService;
+import jsi.mentorship.core.utilities.results.DataResult;
+import jsi.mentorship.core.utilities.results.Result;
 import jsi.mentorship.models.concretes.Subject;
+import jsi.mentorship.models.wrappers.SubjectSubsubject;
 
 @Configuration
 @CrossOrigin()
@@ -23,31 +25,34 @@ import jsi.mentorship.models.concretes.Subject;
 @RequestMapping("/api")
 public class SubjectController {
 	
-    public static final String ROLE_ADMIN = "ROLE_MANAGER";
-    public static final String ROLE_USER = "ROLE_USER";
-	
-	
 	@Autowired
 	private SubjectService subjectService;
 	
-	//@Secured({ROLE_ADMIN,ROLE_USER})
 	@GetMapping("/subjects")
-	public List<Subject> getAllSubjects(){
+	public DataResult<List<Subject>>getAllSubjects(){
 		return this.subjectService.findAll();
 	}
 	
-	//@Secured(ROLE_ADMIN)
 	@PostMapping("/subjects/add") 
-	public String addSubject(@RequestBody Subject subject) {
-		this.subjectService.saveOrUpdateSubject(subject);
-		return "işlem başarılı";
+	public Result addSubject(@RequestBody Subject subject) {
+		return this.subjectService.saveOrUpdateSubject(subject);
 	}
 	
-	//@Secured({ROLE_ADMIN,ROLE_USER})
-	@GetMapping("/subjects/addSubsubject/{subjectName}/{subsubjectName}")
-	public Subject addSubsubjectToSubject(@PathVariable("subjectName") String subjectName, @PathVariable("subsubjectName") String subsubjectName){
-		return this.subjectService.addSubsubjectToSubject(subjectName, subsubjectName);
+	@PostMapping("/subjects/addSubsubject/")
+	public Result addSubsubjectToSubject(@RequestBody SubjectSubsubject subjectSubsubject){
+		return this.subjectService.addSubsubjectToSubject(subjectSubsubject);
 	}
+	
+	@DeleteMapping("/subjects/deleteSubsubject/")
+	public Result deleteSubsubject(@RequestBody SubjectSubsubject subjectSubsubject) {
+		return this.subjectService.deleteSubsubject(subjectSubsubject);
+	}
+	
+	@DeleteMapping("/subjects/delete/{subjectName}")
+	public Result deleteSubjectBySubjectName(@PathVariable("subjectName") String subjectName) {
+		return this.subjectService.deleteSubjectBySubjectName(subjectName);
+	}
+	
 	
 
 }

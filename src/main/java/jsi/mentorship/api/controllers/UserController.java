@@ -4,18 +4,17 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import jsi.mentorship.business.abstracts.UserService;
-import jsi.mentorship.models.concretes.Subsubject;
+import jsi.mentorship.core.utilities.results.DataResult;
+import jsi.mentorship.core.utilities.results.Result;
 import jsi.mentorship.models.concretes.User;
 
 
@@ -25,39 +24,36 @@ import jsi.mentorship.models.concretes.User;
 @RequestMapping("/api")
 public class UserController {
 	
-    public static final String ROLE_ADMIN = "ROLE_MANAGER";
-    public static final String ROLE_USER = "ROLE_USER";
-	
     @Autowired
     private UserService userService;
     
-    
-	//@Secured({ROLE_ADMIN})
 	@GetMapping("/users")
-	public List<User> getAllUsers(){
+	public DataResult<List<User>> getAllUsers(){
 		return this.userService.findAll();
 	}
 
-    
-	
-
-	//@Secured({ROLE_USER, ROLE_ADMIN})
 	@GetMapping("/users/get/{userId}")
-	public User getById(@PathVariable("userId") int userId){
-		return userService.findByUserId(userId);
+	public DataResult<User> getById(@PathVariable("userId") int userId){
+		return this.userService.findByUserId(userId);
 	}
 	
 	@GetMapping("/users/getByUsername/{username}")
-	public User getByUsername(@PathVariable("username") String username){
-		return userService.findByUsername(username);
+	public DataResult<User> getByUsername(@PathVariable("username") String username){
+		return this.userService.findByUsername(username);
 	}
 	
-	//@Secured(ROLE_ADMIN)
 	@PostMapping("/users/add")
-	public String addUser(@RequestBody User user) {
-		this.userService.saveOrUpdateUser(user);
-		return "işlem başarılı";
+	public Result addUser(@RequestBody User user) {
+		return this.userService.saveOrUpdateUser(user);
 	}
-
 	
-}
+	@GetMapping("/users/mentors")
+	public DataResult<List<User>> getAllMentors(){
+		return this.userService.findMentors();
+	}
+	
+	@GetMapping("/users/getBySubsubject/{subsubjectName}")
+	public DataResult<List<User>> getAllMentorsBySubsubject(@PathVariable("subsubjectName") String subsubjectName){
+		return this.userService.findAllMentorsBySubsubject(subsubjectName);
+	}
+	}

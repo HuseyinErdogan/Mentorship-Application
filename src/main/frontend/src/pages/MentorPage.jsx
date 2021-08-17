@@ -2,21 +2,27 @@ import React, { useState, useEffect } from "react";
 import { Table, Grid, Header, Container } from "semantic-ui-react";
 import MentorshipService from "../services/mentorship.service";
 import AuthService from "../services/auth.service";
-import UserService from "../services/user.service";
 import { Router, Switch, Route, Link } from "react-router-dom";
 
-import { Button, Icon, Image, Item, Label, Message } from "semantic-ui-react";
+import { Button, Icon, Image, Item, Label, Message, Segment } from "semantic-ui-react";
 
-export default function MentorPage() {
+export default function MentorPage({match}) {
+  const { url } = match;
   const [mentorshipsGiven, setMentorshipsGiven] = useState([]);
+
+  const [error, setError] = useState(false);
 
   const currentUser = AuthService.getCurrentUser();
 
-  let menteeCount = 0;
-
   useEffect(() => {
     MentorshipService.getMentorshipsByMentorId(currentUser.userId).then(
-      (result) => setMentorshipsGiven(result.data)
+      (result) => {
+        if(result.data.success){
+        setMentorshipsGiven(result.data.data);}
+        else{
+          setError(true);
+        }
+      }
     );
   }, []);
 
@@ -89,6 +95,36 @@ export default function MentorPage() {
               </Message>
             </Grid.Column>
           )}
+          {error && (
+            <Grid.Column className="my-3" celled textAlign="center">
+              <Message negative>
+                <Message.Header size="large">
+                  Error in accessing data
+                </Message.Header>
+              </Message>
+            </Grid.Column>
+          )}
+        </Grid.Row>
+        <Grid.Row celled centered>
+          <Grid.Column width={10} textAlign="center">
+            <Segment>
+              <Header icon>
+                <Icon name="address book outline" />
+              </Header>
+              <Segment.Inline>
+                <Button
+                  as={Link}
+                  to={{
+                    pathname: `${url}/mentorshipAppeals`,
+                  }}
+                  color="teal"
+                  size="big"
+                >
+                  CHECK MENTORSHIP APPEALS 
+                </Button>
+              </Segment.Inline>
+            </Segment>
+          </Grid.Column>
         </Grid.Row>
       </Grid>
     </Container>

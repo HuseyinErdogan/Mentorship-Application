@@ -30,10 +30,55 @@ const deleteByAppealId = (appealId) => {
 
 
 
+
+
+
+
+
+
+
+const getAllMentorshipAppeals = () => {
+  return axios.get(API_URL+"/mentorshipAppeals", { headers: authHeader() });
+};
+
+const addMentorshipAppeal = (becomeMentorAppeal) => {
+  return axios
+    .post(API_URL+"/mentorshipAppeals/add/", becomeMentorAppeal, { headers: authHeader() })
+};
+
+
+const getMentorshipAppealById = (id) => {
+return axios.get(API_URL + "/mentorshipAppeals/get/"+id, { headers: authHeader() });
+};
+
+const getMentorshipAppealsByMentorId = (mentorId) => {
+  return axios.get(API_URL + "/mentorshipAppeals/getByMentor/"+mentorId, { headers: authHeader() });
+};
+
+const getMentorshipAppealsByMenteeId = (menteeId) => {
+  return axios.get(API_URL + "/mentorshipAppeals/getByMentee/"+menteeId, { headers: authHeader() });
+};
+
+const acceptMentorshipAppeal = (appealId) => {
+  return axios.get(API_URL + "/mentorshipAppeals/acceptAppeal/"+appealId, { headers: authHeader() });
+}
+
+const deleteMentorshipAppealByAppealId = (appealId) => {
+  return axios.delete(API_URL + "/mentorshipAppeals/delete/"+appealId, { headers: authHeader() });
+};
+
+
 export default {
     getAllBecomeMentorAppeals,
     addBecomeMentorAppeal,
     getBecomeMentorAppealById,
     makeMenteeMentor,
-    deleteByAppealId
+    deleteByAppealId,
+    getAllMentorshipAppeals,
+    addMentorshipAppeal,
+    getMentorshipAppealById,
+    getMentorshipAppealsByMentorId,
+    getMentorshipAppealsByMenteeId,
+    acceptMentorshipAppeal,
+    deleteMentorshipAppealByAppealId
 };

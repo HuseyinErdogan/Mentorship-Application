@@ -22,9 +22,14 @@ const addUser = (user) => {
   axios.post(API_URL+"/add", user, { headers: authHeader()});
 }
 
+const getMentorsBySubsubjectName = (subsubjectName) => {
+  return axios.get(API_URL + "/getBySubsubject/"+subsubjectName, { headers: authHeader() });
+} 
+
 export default {
   getUsers,
   getUserById,
   getUserByUsername,
-  addUser
+  addUser,
+  getMentorsBySubsubjectName
 };

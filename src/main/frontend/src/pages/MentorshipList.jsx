@@ -1,5 +1,4 @@
 import React, {useState, useEffect} from 'react'
-import UserService from '../services/user.service'
 
 import { Button, Icon, Image, Item, Label } from 'semantic-ui-react'
 import { render } from '@testing-library/react';

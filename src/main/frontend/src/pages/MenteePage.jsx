@@ -1,14 +1,23 @@
 import React, { useState, useEffect } from "react";
-import { Table, Container, Grid, Header } from "semantic-ui-react";
+import { Container, Grid, Header } from "semantic-ui-react";
 import MentorshipService from "../services/mentorship.service";
 import AuthService from "../services/auth.service";
 import { Router, Switch, Route, Link } from "react-router-dom";
-import MentorshipDetailPage from "./MentorshipDetailPage";
 
-import { Button, Icon, Image, Item, Label, Message } from "semantic-ui-react";
+import {
+  Button,
+  Icon,
+  Image,
+  Item,
+  Label,
+  Message,
+  Segment,
+} from "semantic-ui-react";
 
 export default function MenteePage({ match }) {
   const { url } = match;
+
+  const [error, setError] = useState(false);
 
   const [mentorshipsTaken, setMentorshipsTaken] = useState([]);
 
@@ -17,7 +26,12 @@ export default function MenteePage({ match }) {
   useEffect(() => {
     MentorshipService.getMentorshipsByMenteeId(currentUser.userId).then(
       (result) => {
-        setMentorshipsTaken(result.data);
+        console.log(result.data);
+        if (result.data.success) {
+          setMentorshipsTaken(result.data.data);
+        } else {
+          setError(true);
+        }
       }
     );
   }, []);
@@ -26,11 +40,11 @@ export default function MenteePage({ match }) {
     <Container className="mt-5">
       <Grid celled="internally">
         <Grid.Row textAlign="center" columns={3}>
-          <Grid.Column width={2}></Grid.Column>
-          <Grid.Column width={8}>
+          <Grid.Column width={3}></Grid.Column>
+          <Grid.Column width={10}>
             <Header size="huge">Mentorships Taken</Header>
           </Grid.Column>
-          <Grid.Column width={6}>
+          <Grid.Column width={3}>
             {currentUser.role.name == "MENTEE" && (
               <Button
                 as={Link}
@@ -47,7 +61,7 @@ export default function MenteePage({ match }) {
         </Grid.Row>
         {mentorshipsTaken.map((mentorship) => (
           <Grid.Row columns={3}>
-            <Grid.Column width={2}></Grid.Column>
+            <Grid.Column width={4}></Grid.Column>
             <Grid.Column width={8} className="d-flex justify-content-center">
               <Item.Group>
                 <Item
@@ -100,6 +114,36 @@ export default function MenteePage({ match }) {
               </Message>
             </Grid.Column>
           )}
+          {error && (
+            <Grid.Column className="my-3" celled textAlign="center">
+              <Message negative>
+                <Message.Header size="large">
+                  Error in accessing data
+                </Message.Header>
+              </Message>
+            </Grid.Column>
+          )}
+        </Grid.Row>
+        <Grid.Row celled centered>
+          <Grid.Column width={10} textAlign="center">
+            <Segment>
+              <Header icon>
+                <Icon name="search" />
+              </Header>
+              <Segment.Inline>
+                <Button
+                  as={Link}
+                  to={{
+                    pathname: `${url}/searchMentor`,
+                  }}
+                  color="teal"
+                  size="big"
+                >
+                  SEARCH MENTOR
+                </Button>
+              </Segment.Inline>
+            </Segment>
+          </Grid.Column>
         </Grid.Row>
       </Grid>
     </Container>

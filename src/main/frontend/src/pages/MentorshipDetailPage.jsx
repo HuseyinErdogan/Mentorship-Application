@@ -51,7 +51,7 @@ function MentorshipDetailPage({ match }) {
 
   useEffect(() => {
     MentorshipService.getMentorshipById(id).then((result) =>{
-      setMentorship(result.data);
+      setMentorship(result.data.data);
       if(result.data.menteeId==currentUser.userId){
         setCurrentRole(ROLE_MENTEE);
       }
@@ -61,19 +61,19 @@ function MentorshipDetailPage({ match }) {
 
   useEffect(() => {
     MentorshipService.getMentorFromMentorshipById(id).then((result) =>
-      setMentor(result.data)
+      setMentor(result.data.data)
     );
   }, []);
 
   useEffect(() => {
     MentorshipService.getMenteeFromMentorshipById(id).then((result) =>
-      setMentee(result.data)
+      setMentee(result.data.data)
     );
   }, []);
 
   const handleSubmit = () => {
     MentorshipService.addMentorship(mentorship).then((result) =>
-      console.log(result.data)
+      console.log(result.data.data)
     );
   };
 

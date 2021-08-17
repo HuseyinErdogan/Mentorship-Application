@@ -14,14 +14,26 @@ const addSubject = (subject) => {
   
 };
 
-
-const addSubsubjectToSubject = (subjectName, subsubjectName) => {
-  return axios.get(API_URL + "/addSubsubject/"+subjectName+"/"+subsubjectName, { headers: authHeader() });
+const addSubsubjectToSubject  = (subjectSubsubject) => {
+  return axios.post(API_URL + "/addSubsubject/", subjectSubsubject, {
+    headers: authHeader()
+  });
 };
-
 
 const getSubsubjects = (subject) => {
   return subject.subsubjects;
+}
+
+const deleteSubsubject = (subjectSubsubject) =>{
+  return axios.delete(API_URL + "/deleteSubsubject/", subjectSubsubject, {
+    headers: authHeader()
+  });
+}
+
+const deleteSubject = (subjectName) =>{
+  return axios.delete(API_URL + "/delete/"+subjectName, {
+    headers: authHeader()
+  });
 }
 
 
@@ -29,5 +41,7 @@ export default {
   getSubjects,
   addSubject,
   addSubsubjectToSubject,
-  getSubsubjects
+  getSubsubjects,
+  deleteSubject,
+  deleteSubsubject
 };

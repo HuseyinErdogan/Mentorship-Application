@@ -45,7 +45,9 @@ public class OpenLdapAuthenticationProvider implements AuthenticationProvider {
 
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
-
+    	
+    	System.out.println(authentication.getName()+" *****");
+    	
         Filter filter = new EqualsFilter("uid", authentication.getName());
         Boolean authenticate = ldapTemplate.authenticate(LdapUtils.emptyLdapName(), filter.encode(),
                 authentication.getCredentials().toString());

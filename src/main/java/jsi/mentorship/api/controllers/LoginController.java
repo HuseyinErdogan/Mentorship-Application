@@ -37,7 +37,7 @@ public class LoginController {
     public ResponseEntity<?> createAuthenticationToken(@RequestBody JwtRequest authenticationRequest) throws Exception
     {
         
-        final User userDetails = userService.findByUsername(authenticationRequest.getUsername());
+        final User userDetails = userService.findByUsername(authenticationRequest.getUsername()).getData();
         
         if(!userService.checkUsernameAndPassword(userDetails.getUsername(), authenticationRequest.getPassword())) {
         	return ResponseEntity.ok("INVALID USERNAME OR PASSWORD");

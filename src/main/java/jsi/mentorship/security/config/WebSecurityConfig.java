@@ -49,7 +49,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
                 .and()
                 // dont authenticate this particular request
                 .authorizeRequests().antMatchers("/api/login").permitAll()
-                //		.antMatchers("/api/mentorships").hasRole("MANAGER")
+                		.antMatchers("/api/mentorships").hasRole("MANAGER")
                 // all other requests need to be authenticated
                         .antMatchers("/api/test/**").authenticated().and()
                         //.permitAll().and()
