@@ -96,21 +96,18 @@ public class SubjectManager implements SubjectService{
 	}
 
 	@Override
-	public Result deleteSubsubject(SubjectSubsubject subjectSubsubject) {
-		Subject subject = subjectSubsubject.getSubject();
-		Subsubject subsubject = new Subsubject(subjectSubsubject.getSubsubjectName());
+	public Result deleteSubsubjectBySubsubjectName(String subsubjectName) {
 		
-		int count = 0;
-		for (Subsubject sbsbj : subject.getSubsubjects()) {
-			if(sbsbj.getSubsubjectName().equalsIgnoreCase(subjectSubsubject.getSubsubjectName())) {
-				subject.getSubsubjects().remove(count);
-				break;
+		Subject subject = this.findSubjectBySubsubjectName(subsubjectName).getData();
+		
+		for (Subsubject subsubject : subject.getSubsubjects()) {
+			if(subsubject.getSubsubjectName().equalsIgnoreCase(subsubjectName)) {
+				subject.getSubsubjects().remove(subsubject);
+				this.subjectRepository.save(subject);
+				return new SuccessResult("Subsubject is successfully deleted");
 			}
-			count++;
 		}
-		
-		subject.getSubsubjects().remove(subsubject);
-		return new SuccessResult("Subsubject is successfully deleted");
+		return new ErrorResult("Subsubject is not founded");
 	}
 
 	@Override

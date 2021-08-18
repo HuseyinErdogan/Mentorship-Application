@@ -39,16 +39,8 @@ public class LoginController {
         
         final User userDetails = userService.findByUsername(authenticationRequest.getUsername()).getData();
         
-        if(!userService.checkUsernameAndPassword(userDetails.getUsername(), authenticationRequest.getPassword())) {
-        	return ResponseEntity.ok("INVALID USERNAME OR PASSWORD");
-        	
-        }
-        
         authenticate(authenticationRequest.getUsername(), authenticationRequest.getPassword());
-//                userDetailsService.loadUserByUsername(authenticationRequest.getUsername());
-        //JwtUserDetails userDetails = new JwtUserDetails();
-        //userDetails.setUsername(authenticationRequest.getUsername());
-        
+
         final String token = jwtTokenUtil.generateToken(userDetails);
         
         return ResponseEntity.ok(new JwtResponse(token, userDetails));

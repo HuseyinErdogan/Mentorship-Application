@@ -43,9 +43,9 @@ public class SubjectController {
 		return this.subjectService.addSubsubjectToSubject(subjectSubsubject);
 	}
 	
-	@DeleteMapping("/subjects/deleteSubsubject/")
-	public Result deleteSubsubject(@RequestBody SubjectSubsubject subjectSubsubject) {
-		return this.subjectService.deleteSubsubject(subjectSubsubject);
+	@DeleteMapping("/subjects/deleteSubsubject/{subsubjectName}")
+	public Result deleteSubsubjectBySubsubjectName(@PathVariable("subsubjectName") String subsubjectName) {
+		return this.subjectService.deleteSubsubjectBySubsubjectName(subsubjectName);
 	}
 	
 	@DeleteMapping("/subjects/delete/{subjectName}")

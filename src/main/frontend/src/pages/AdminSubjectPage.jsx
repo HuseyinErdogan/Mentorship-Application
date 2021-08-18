@@ -25,6 +25,19 @@ export default function AdminSubjectPage(props) {
 
   const [subjects, setSubjects] = useState([]);
 
+
+  const handleDeleteSubject = (subjectName) =>{
+    SubjectService.deleteSubject(subjectName).then((response)=>{
+      console.log(response);
+    })
+  }
+
+  const handleDeleteSubsubject = (subsubjectName) =>{
+    SubjectService.deleteSubsubject(subsubjectName).then((response)=>{
+      console.log(response);
+    })
+  }
+
   useEffect(() => {
     SubjectService.getSubjects().then((result) => setSubjects(result.data.data));
   });
@@ -49,15 +62,7 @@ export default function AdminSubjectPage(props) {
 
               <Grid.Column centered textAlign='center' width={10}>
               <Button color='red' className='mb-3' onClick={()=>{
-                var subjectSubsubject={
-                  subject:subject,
-                  subsubjectName:subsubject.subsubjectName
-                }
-                SubjectService.deleteSubsubject(subjectSubsubject).then(result=>{
-                  if(result.data.success){
-                    console.log(result.data)
-                  }
-                })
+                handleDeleteSubsubject(subsubject.subsubjectName)
               }}>
                 Delete Subsubject
               </Button>
@@ -117,7 +122,7 @@ export default function AdminSubjectPage(props) {
             
             </Form.Group>
             </Form>
-            <Button color='red' className='mb-3'>
+            <Button color='red' className='mb-3' onClick={()=>{handleDeleteSubject(subject.subjectName)}}>
                 Delete {subject.subjectName} Subject
               </Button>
             

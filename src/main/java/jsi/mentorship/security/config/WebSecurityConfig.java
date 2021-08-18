@@ -32,8 +32,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.authenticationProvider(openLdapAuthenticationProvider);
-       
+        auth.authenticationProvider(openLdapAuthenticationProvider);		
     }
 
 

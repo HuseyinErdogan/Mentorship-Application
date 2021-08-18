@@ -43,7 +43,7 @@ objectclass: inetOrgPerson
 cn: Huseyin Erdogan
 sn:Erdogan
 uid: hus
-userPassword: 123
+userPassword: 12344
 
 dn: uid=jerry,ou=people,dc=springframework,dc=org
 objectclass: top

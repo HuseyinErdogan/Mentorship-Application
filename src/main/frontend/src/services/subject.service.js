@@ -24,8 +24,8 @@ const getSubsubjects = (subject) => {
   return subject.subsubjects;
 }
 
-const deleteSubsubject = (subjectSubsubject) =>{
-  return axios.delete(API_URL + "/deleteSubsubject/", subjectSubsubject, {
+const deleteSubsubject = (subsubjectName) =>{
+  return axios.delete(API_URL + "/deleteSubsubject/"+subsubjectName, {
     headers: authHeader()
   });
 }

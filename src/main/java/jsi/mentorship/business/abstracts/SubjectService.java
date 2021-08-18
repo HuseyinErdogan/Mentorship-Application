@@ -15,7 +15,7 @@ public interface SubjectService {
 	DataResult<Subject> findBySubjectName(String subjectName);
 	Result deleteSubjectBySubjectName(String subjectName);
 	Result addSubsubjectToSubject(SubjectSubsubject subjectSubsubject);
-	Result deleteSubsubject(SubjectSubsubject subjectSubsubject);
+	Result deleteSubsubjectBySubsubjectName(String subsubjectName);
 	boolean subjectIncludesSubsubject(String subjectName, String subsubjectName);
 	DataResult<Subject> findSubjectBySubsubjectName(String subsubjectName);
 }

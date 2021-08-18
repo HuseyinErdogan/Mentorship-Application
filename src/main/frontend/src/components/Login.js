@@ -49,18 +49,14 @@ const Login = (props) => {
           window.location.reload();
 
         },
-        (error) => {
-          const resMessage =
-            (error.response &&
-              error.response.data &&
-              error.response.data.message) ||
-            error.message ||
-            error.toString();
+      ).catch(function(error){
+
+        if(error.response.status==401){
 
           setLoading(false);
-          setMessage(resMessage);
+          setMessage("Username or password is incorrect");
         }
-      );
+      })
     } else {
       setLoading(false);
     }
@@ -101,7 +97,7 @@ const Login = (props) => {
               />
             </div>
 
-            <div className="form-group">
+            <div className="form-group my-2">
               <button className="btn btn-primary btn-block" disabled={loading}>
                 {loading && (
                   <span className="spinner-border spinner-border-sm"></span>

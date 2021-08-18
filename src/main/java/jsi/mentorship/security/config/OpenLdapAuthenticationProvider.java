@@ -38,6 +38,7 @@ public class OpenLdapAuthenticationProvider implements AuthenticationProvider {
     	
         contextSource.setAnonymousReadOnly(true);
         contextSource.setUserDn("uid={0},ou=people");
+      
         contextSource.afterPropertiesSet();
         
         ldapTemplate = new LdapTemplate(contextSource);
@@ -45,8 +46,6 @@ public class OpenLdapAuthenticationProvider implements AuthenticationProvider {
 
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
-    	
-    	System.out.println(authentication.getName()+" *****");
     	
         Filter filter = new EqualsFilter("uid", authentication.getName());
         Boolean authenticate = ldapTemplate.authenticate(LdapUtils.emptyLdapName(), filter.encode(),
@@ -71,4 +70,6 @@ public class OpenLdapAuthenticationProvider implements AuthenticationProvider {
     public boolean supports(Class<?> authentication) {
         return authentication.equals(UsernamePasswordAuthenticationToken.class);
     }
+    
+    
 }
