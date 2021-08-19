@@ -8,8 +8,10 @@ import {
   Form,
   Message,
 } from "semantic-ui-react";
+import AuthService from "../services/auth.service";
 
 import SubjectService from "../services/subject.service";
+import { ROLE_ADMIN } from "./Roles";
 
 
 
@@ -27,15 +29,11 @@ export default function AdminSubjectPage(props) {
 
 
   const handleDeleteSubject = (subjectName) =>{
-    SubjectService.deleteSubject(subjectName).then((response)=>{
-      console.log(response);
-    })
+    SubjectService.deleteSubject(subjectName);
   }
 
   const handleDeleteSubsubject = (subsubjectName) =>{
-    SubjectService.deleteSubsubject(subsubjectName).then((response)=>{
-      console.log(response);
-    })
+    SubjectService.deleteSubsubject(subsubjectName);
   }
 
   useEffect(() => {
@@ -93,7 +91,6 @@ export default function AdminSubjectPage(props) {
                 placeholder='Subsubject Name'
                 name='subsubjectName'
                 onChange={(e,data)=>{setSubsbjName(data.value);
-                  console.log(subsbjName);
               
                }}
                 />
@@ -105,7 +102,6 @@ export default function AdminSubjectPage(props) {
                 }
                   
                 SubjectService.addSubsubjectToSubject(subjectSubsubject).then(result=>{
-                  console.log(result.data);
                 if(result.data.success){
                   setSubsubjectSubmitSuccess(true);
                   setSubsubjectSubmitError(false);
@@ -186,7 +182,7 @@ export default function AdminSubjectPage(props) {
 
   return (
     <Container className="mt-5">
-      <Grid celled="internally" verticalAlign="top" centered>
+      {AuthService.getCurrentUserRole()==ROLE_ADMIN && (<Grid celled="internally" verticalAlign="top" centered>
         <Grid.Row columns={2}>
           <Grid.Column textAlign="center" width={9}>
             <Accordion defaultActiveIndex={0} panels={rootPanels} styled/>
@@ -216,7 +212,7 @@ export default function AdminSubjectPage(props) {
             </Form>
           </Grid.Column>
         </Grid.Row>
-      </Grid>
+      </Grid>)}
     </Container>
   );
 }

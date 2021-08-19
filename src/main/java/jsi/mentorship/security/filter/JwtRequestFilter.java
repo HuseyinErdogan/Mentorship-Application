@@ -41,7 +41,11 @@ public class JwtRequestFilter extends OncePerRequestFilter
         String jwtToken = null;
 
         List<GrantedAuthority> grantedAuthorities = new ArrayList<>();
-        grantedAuthorities.add(new SimpleGrantedAuthority("ROLE_USER"));
+      
+        
+    //    
+        
+       
 
         // JWT Token is in the form "Bearer token".
         //Remove Bearer word and get only the Token
@@ -50,7 +54,8 @@ public class JwtRequestFilter extends OncePerRequestFilter
             jwtToken = requestTokenHeader.substring(7);
             try {
                 username = jwtTokenUtil.getUsernameFromToken(jwtToken);
-
+                String role = this.userService.findByUsername(username).getData().getRole().getName();
+                grantedAuthorities.add(new SimpleGrantedAuthority("ROLE_"+role));
             } catch (IllegalArgumentException e) {
                 System.out.println("Unable to get JWT Token");
             } catch (ExpiredJwtException e) {

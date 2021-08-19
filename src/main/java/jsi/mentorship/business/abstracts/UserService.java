@@ -12,9 +12,13 @@ public interface UserService {
 	DataResult<User> findByUserId(int userId);
 	Result deleteUserById(int id);
 	DataResult<User> findByUsername(String userName);
+	DataResult<User> findByEmail(String email);
+	
+	
 	boolean checkUsernameAndPassword(String username, String password);
 	
 	DataResult<List<User>> findMentors();
+	DataResult<List<User>> findMentorsByDescription(String description);
 	
 	DataResult<List<User>> findAllMentorsBySubsubject(String subsubjectName);
 }

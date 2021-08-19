@@ -2,8 +2,10 @@ import React, { useState, useRef } from "react";
 import Form from "react-validation/build/form";
 import Input from "react-validation/build/input";
 import CheckButton from "react-validation/build/button";
-
+import GoogleLogin from "react-google-login";
 import AuthService from "../services/auth.service";
+import UserService from "../services/user.service";
+import {ROLE_MENTOR, ROLE_MENTEE, ROLE_ADMIN} from "../pages/Roles";
 
 const required = (value) => {
   if (!value) {
@@ -44,9 +46,21 @@ const Login = (props) => {
 
     if (checkBtn.current.context._errors.length === 0) {
       AuthService.login(username, password).then(
-        () => {
-          props.history.push("/profile");
-          window.location.reload();
+        (response) => {
+        
+          if(response.user.role.name==ROLE_ADMIN){
+              props.history.push("/admin");
+              window.location.reload();
+          }
+          else if(response.user.role.name==ROLE_MENTOR){
+              props.history.push("/mentor");
+              window.location.reload();
+          }
+          else if(response.user.role.name==ROLE_MENTEE){
+              props.history.push("/mentee");
+              window.location.reload();
+          }
+          
 
         },
       ).catch(function(error){
@@ -62,10 +76,29 @@ const Login = (props) => {
     }
   };
 
+  const responseGoogle = (response) =>{
+    UserService.getUserByGoogleResponse(response).then((result)=>{
+
+      const username = result.data.data.username;
+      const password = result.data.data.userPassword;
+      AuthService.login(username, password).then(
+        () => {
+          props.history.push("/profile");
+          window.location.reload();
+
+        },
+      )
+
+    })
+  }
+
+
   return (
     <div className="container">
       <div className="col-md-12">
+
         <div className="card card-container">
+          
           <img
             src="//ssl.gstatic.com/accounts/ui/avatar_2x.png"
             alt="profile-img"
@@ -98,7 +131,7 @@ const Login = (props) => {
             </div>
 
             <div className="form-group my-2">
-              <button className="btn btn-primary btn-block" disabled={loading}>
+              <button className="btn btn-primary btn-block w-100" disabled={loading}>
                 {loading && (
                   <span className="spinner-border spinner-border-sm"></span>
                 )}
@@ -113,11 +146,22 @@ const Login = (props) => {
                 </div>
               </div>
             )}
-            <CheckButton style={{ display: "none" }} ref={checkBtn} />
+            <CheckButton style={{ display: "none" }} ref={checkBtn}/>
+            <GoogleLogin
+            className='w-100'
+        clientId="234841668420-4p7cjggsqingudd8jguvf8uaddkfrvbj.apps.googleusercontent.com"
+        buttonText="LOGIN WITH GOOGLE"
+        onSuccess={responseGoogle}
+        onFailure={responseGoogle}
+        cookiePolicy={'single_host_origin'}
+        
+        />
           </Form>
         </div>
       </div>
     </div>
+
+    
   );
 };
 

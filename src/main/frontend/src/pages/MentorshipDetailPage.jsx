@@ -1,12 +1,8 @@
 import React, { useState, useEffect } from "react";
 import MentorshipService from "../services/mentorship.service";
 import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
   Link,
   useParams,
-  useLocation,
   withRouter,
 } from "react-router-dom";
 import {
@@ -52,7 +48,7 @@ function MentorshipDetailPage({ match }) {
   useEffect(() => {
     MentorshipService.getMentorshipById(id).then((result) =>{
       setMentorship(result.data.data);
-      if(result.data.menteeId==currentUser.userId){
+      if(result.data.data.menteeId==currentUser.userId){
         setCurrentRole(ROLE_MENTEE);
       }
     }
@@ -72,9 +68,7 @@ function MentorshipDetailPage({ match }) {
   }, []);
 
   const handleSubmit = () => {
-    MentorshipService.addMentorship(mentorship).then((result) =>
-      console.log(result.data.data)
-    );
+    MentorshipService.addMentorship(mentorship);
   };
 
   var activeIndexTemp=0;
@@ -242,9 +236,12 @@ function MentorshipDetailPage({ match }) {
                               )}
 
                               {(phase.mentorDone || phase.menteeDone) && (
+
+
                                 <Grid.Row centered columns={2}>
                                   {/** MENTOR CARD **/}
                                   <Grid.Column width={7} centered>
+                                    
                                     <Grid.Row className="d-flex justify-content-center">
                                       {mentor &&
                                         currentRole == ROLE_MENTOR &&
@@ -330,9 +327,12 @@ function MentorshipDetailPage({ match }) {
                                   <Grid.Column width={7}>
                                     <Grid.Row className="d-flex justify-content-center">
                                       {mentee &&
-                                        currentRole == ROLE_MENTEE &&
-                                        !phase.menteeDone && (
+                                        (currentRole == ROLE_MENTEE &&
+                                        phase.menteeDone==false) && (
+
+                                          
                                           <Form>
+                                           
                                             <Header size="tiny">
                                               Please comment on the phase.
                                             </Header>

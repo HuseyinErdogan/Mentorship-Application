@@ -13,7 +13,6 @@ const login = (username, password) => {
   return axios
     .post(API_URL, userData)
     .then((response) => {
-        console.log(response.data)
       if (response.data.accessToken) {
         localStorage.setItem("user", JSON.stringify(response.data.user));
         localStorage.setItem("accessToken", JSON.stringify(response.data.accessToken));

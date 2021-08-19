@@ -78,5 +78,15 @@ public class UserManager implements UserService{
 		return new SuccessDataResult<List<User>>(result, "Mentors are successfully founded");
 	}
 
+	@Override
+	public DataResult<User> findByEmail(String email) {
+		return new SuccessDataResult<User>(this.userRepository.findByEmail(email),"User is successfully founded");
+	}
+
+	@Override
+	public DataResult<List<User>> findMentorsByDescription(String description) {
+		return new SuccessDataResult<List<User>>(this.userRepository.findMentorsByDescription(description));
+	}
+
 
 }

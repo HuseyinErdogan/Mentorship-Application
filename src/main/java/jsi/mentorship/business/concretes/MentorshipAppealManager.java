@@ -1,6 +1,5 @@
 package jsi.mentorship.business.concretes;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,8 +14,6 @@ import jsi.mentorship.core.utilities.results.SuccessDataResult;
 import jsi.mentorship.core.utilities.results.SuccessResult;
 import jsi.mentorship.dataAccess.MentorshipAppealRepository;
 import jsi.mentorship.dataAccess.MentorshipRepository;
-import jsi.mentorship.dataAccess.SubjectRepository;
-import jsi.mentorship.models.concretes.BecomeMentorAppeal;
 import jsi.mentorship.models.concretes.Mentorship;
 import jsi.mentorship.models.concretes.MentorshipAppeal;
 import jsi.mentorship.models.concretes.Subject;

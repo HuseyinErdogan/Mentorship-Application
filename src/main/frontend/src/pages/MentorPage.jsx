@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { Table, Grid, Header, Container } from "semantic-ui-react";
 import MentorshipService from "../services/mentorship.service";
 import AuthService from "../services/auth.service";
-import { Router, Switch, Route, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 
-import { Button, Icon, Image, Item, Label, Message, Segment } from "semantic-ui-react";
+import { Button, Icon, Item, Label, Message, Segment, Grid, Header, Container } from "semantic-ui-react";
+import { ROLE_MENTOR } from "./Roles";
 
 export default function MentorPage({match}) {
   const { url } = match;
@@ -12,13 +12,15 @@ export default function MentorPage({match}) {
 
   const [error, setError] = useState(false);
 
+
   const currentUser = AuthService.getCurrentUser();
 
   useEffect(() => {
     MentorshipService.getMentorshipsByMentorId(currentUser.userId).then(
       (result) => {
         if(result.data.success){
-        setMentorshipsGiven(result.data.data);}
+        setMentorshipsGiven(result.data.data);
+        }
         else{
           setError(true);
         }
@@ -28,7 +30,7 @@ export default function MentorPage({match}) {
 
   return (
     <Container className="mt-5">
-      <Grid celled="internally">
+{AuthService.getCurrentUserRole()==ROLE_MENTOR && (      <Grid celled="internally">
         <Grid.Row textAlign="center" columns={3}>
           <Grid.Column width={3}></Grid.Column>
           <Grid.Column width={10}>
@@ -39,6 +41,7 @@ export default function MentorPage({match}) {
         {mentorshipsGiven &&
           mentorshipsGiven.map((mentorship) => (
             <Grid.Row columns={3}>
+            
               <Grid.Column width={4}></Grid.Column>
               <Grid.Column width={8} className="d-flex justify-content-center">
                 <Item.Group>
@@ -51,12 +54,12 @@ export default function MentorPage({match}) {
                   >
                     <Item.Image
                       size="tiny"
-                      src="https://react.semantic-ui.com/images/avatar/large/stevie.jpg"
+                      src="https://react.semantic-ui.com/images/avatar/large/matthew.png"
                     />
                     <Item.Content>
                       <Item.Header as="a" style={{ textDecoration: "none" }}>
-                        {" "}
-                        {mentorship.menteeId}
+                        
+                       {mentorship.id}
                       </Item.Header>
                       <Item.Meta>
                         <span className="cinema">
@@ -126,7 +129,7 @@ export default function MentorPage({match}) {
             </Segment>
           </Grid.Column>
         </Grid.Row>
-      </Grid>
+      </Grid>)}
     </Container>
   );
 }

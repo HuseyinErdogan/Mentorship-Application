@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from "react";
 
 import AppealService from "../services/appeal.service";
-import UserService from"../services/user.service";
 import AuthService from"../services/auth.service";
 
-import { Button, Card, Grid, Image, Container, Label, Header, Message} from "semantic-ui-react";
+import { Button, Card, Grid, Image, Container, Header, Message} from "semantic-ui-react";
 
 const MentorshipAppealsList = () => {
 
@@ -65,7 +64,7 @@ const MentorshipAppealsList = () => {
                 <Image
                   floated="right"
                   size="mini"
-                  src="https://react.semantic-ui.com/images/avatar/large/molly.png"
+                  src="https://react.semantic-ui.com/images/avatar/large/matthew.png"
                 />
                 <Card.Header>{appeal.mentee.firstName+" "+appeal.mentee.lastName}</Card.Header>
                 <Card.Meta>{appeal.mentee.username}</Card.Meta>

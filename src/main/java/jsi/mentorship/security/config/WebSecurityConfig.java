@@ -10,12 +10,17 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @EnableWebSecurity
 @Configuration
     public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
-
+	
+	private static final String ROLE_ADMIN="ADMIN";
+	private static final String ROLE_MENTOR="MENTOR";
+	private static final String ROLE_MENTEE="MENTEE";
 
     private OpenLdapAuthenticationProvider openLdapAuthenticationProvider;
     private JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
@@ -32,7 +37,8 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.authenticationProvider(openLdapAuthenticationProvider);		
+        auth  	
+        	.authenticationProvider(openLdapAuthenticationProvider);		
     }
 
 
@@ -48,14 +54,19 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
                 .and()
                 // dont authenticate this particular request
                 .authorizeRequests().antMatchers("/api/login").permitAll()
-                		.antMatchers("/api/mentorships").hasRole("MANAGER")
-                // all other requests need to be authenticated
-                        .antMatchers("/api/test/**").authenticated().and()
-                        //.permitAll().and()
-                       //.authenticated().and()
-                // make sure we use stateless session; session won't be used to
-                // store user's state.
-                        .exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint).and().sessionManagement()
+                					.antMatchers("/api/users/getByGoogleAuth").permitAll()
+                					//.antMatchers("/api/users/**").hasRole(ROLE_ADMIN)
+                					
+                					.antMatchers("/api/subjects").hasAnyRole(ROLE_ADMIN,ROLE_MENTOR,ROLE_MENTEE)
+                					.antMatchers("/api/subjects/**").hasRole(ROLE_ADMIN)
+                					
+                					.antMatchers("/api/appeals/**").hasAnyRole(ROLE_ADMIN,ROLE_MENTOR,ROLE_MENTEE)
+                					
+                					.antMatchers("/api/appeals/becomeMentor/makeMenteeMentor").hasRole(ROLE_ADMIN)
+                					.antMatchers("/api/appeals/mentorshipAppeals/acceptAppeal").hasRole(ROLE_MENTOR)
+                					.antMatchers("/api/mentorships/**").hasAnyRole(ROLE_ADMIN,ROLE_MENTOR,ROLE_MENTEE)
+                					
+                        .and().exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint).and().sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         // Add a filter to validate the tokens with every request
         httpSecurity.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
@@ -68,4 +79,8 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
         return super.authenticationManagerBean();
     }
 
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+    return new BCryptPasswordEncoder();
+    }
 }

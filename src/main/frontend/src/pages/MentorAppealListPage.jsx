@@ -4,6 +4,8 @@ import AppealService from "../services/appeal.service";
 import UserService from"../services/user.service";
 
 import { Button, Card, Grid, Image, Container, Label, Header } from "semantic-ui-react";
+import AuthService from "../services/auth.service";
+import { ROLE_ADMIN, ROLE_MENTOR } from "./Roles";
 
 export default function MentorAppealListPage() {
 
@@ -29,7 +31,7 @@ export default function MentorAppealListPage() {
 
   return (
     <Container>
-      <Grid  celled>
+      {AuthService.getCurrentUserRole()==ROLE_ADMIN &&(<Grid  celled>
         <Grid.Row>
           
           <Grid.Column textAlign='center'>
@@ -80,7 +82,7 @@ export default function MentorAppealListPage() {
           
         </Grid.Row>
       </Grid>
-
+)}
 
       
     </Container>

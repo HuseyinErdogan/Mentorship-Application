@@ -31,7 +31,7 @@ const SearchMentor = () => {
   const [applyError, setApplyError] = useState(false);
   const [errorDescription, setErrorDescription] = useState("");
 
-
+  const [description, setDescription] = useState("");
 
 
   const [subjects, setSubjects] = useState([]);
@@ -59,12 +59,24 @@ const SearchMentor = () => {
                 Search Mentor
               </Header>
               <br />
-              <Input></Input>
+              <Input onChange={(e, data)=>{
+                setDescription(data.value);
 
-              <Segment.Inline>
-                <Button color="teal">Clear Query</Button>
-                <Button>Add Document</Button>
-              </Segment.Inline>
+
+                if(data.value.length==0){
+                  setMentors([]);
+                }else{
+                  UserService.getMentorsByDescription(data.value).then((result)=>
+                  {
+                    setMentors(result.data.data);
+                  }         
+                  )
+                }
+
+               
+
+
+              }}></Input>
             </Segment>
             {subjects &&
               subjects.map((subject) => (
@@ -263,7 +275,6 @@ const SearchMentor = () => {
                         };
 
                         AppealService.addMentorshipAppeal(mentorshipAppeal).then((result) => {
-                          console.log(result.data)
                           if (result.data.success) {
                             setApplySuccess(true);
                             setApplyError(false);

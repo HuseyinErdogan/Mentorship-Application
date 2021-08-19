@@ -3,7 +3,6 @@ import { useHistory } from "react-router";
 import {
   Button,
   Grid,
-  Container,
   Form,
   TextArea,
   Label,
@@ -86,7 +85,7 @@ const ProcessPlanning = (props) => {
             color="teal"
             className="w-100"
           >
-            ADD PHASE{}
+            ADD PHASE
           </Button>
         </Grid.Column>
         <Grid.Column width={14}>

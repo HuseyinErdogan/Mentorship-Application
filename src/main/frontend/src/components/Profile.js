@@ -1,41 +1,44 @@
 import React from "react";
 import AuthService from "../services/auth.service";
-import { Label } from 'semantic-ui-react'
+import { Label, Table, Divider, Header, Image, Segment } from 'semantic-ui-react'
 const Profile = () => {
   const currentUser = AuthService.getCurrentUser();
-  const currentAccessToken = AuthService.getCurrentAccessToken();
-  let roleColor='yellow';
 
-  if(currentUser.role.name=="ADMIN")
-    roleColor='red';
-  else if(currentUser.role.name=="MENTOR")
-    roleColor='blue';
 
   return (
     <div className="container p-4 ">
-      <header className="jumbotron my-4">
-        <h2>
-          Profile
-        </h2>
-      </header>
-      <p>
-        <strong>Token:</strong> {currentAccessToken.substring(0, 20)} ...{" "}
-        {currentAccessToken.substr(currentAccessToken.length - 20)}
-      </p>
-      <p>
-        <strong>Id:</strong> {currentUser.id}
-      </p>
-      <p>
-        <strong>Email:</strong> {currentUser.email}
-      </p>
-      <strong>Role: </strong>
-      <div>
-      <Label  color={roleColor} image>
-      <img src='https://react.semantic-ui.com/images/avatar/small/christian.jpg' />
-      {currentUser.username}
-      <Label.Detail>{currentUser.role.name}</Label.Detail>
-    </Label>
-      </div> 
+      <Segment color="teal" textAlign="center">
+                <Header textAlign="center" size="large">
+                  {currentUser.firstName + " " + currentUser.lastName}
+                </Header>
+                <Label color="teal" className="mb-2" size="large">
+                  {currentUser.username}
+                </Label>
+                <Image
+                  src="https://react.semantic-ui.com/images/avatar/large/matthew.png"
+                  size="small"
+                  centered
+                />
+                <Divider horizontal>
+                  <Header size="large">User Informations</Header>
+                </Divider>
+
+                <Table definition>
+                  <Table.Body>
+                    <Table.Row>
+                      <Table.Cell width={4}>E-mail</Table.Cell>
+                      <Table.Cell>{currentUser.email}</Table.Cell>
+                    </Table.Row>
+                    <Table.Row>
+                      <Table.Cell>Phone number</Table.Cell>
+                      <Table.Cell>{currentUser.phoneNumber}</Table.Cell>
+                    </Table.Row>
+                  </Table.Body>
+                </Table>
+                
+                
+
+              </Segment>
 
     </div>
   );

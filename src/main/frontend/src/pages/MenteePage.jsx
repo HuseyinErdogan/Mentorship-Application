@@ -47,12 +47,14 @@ export default function MenteePage({ match }) {
           <Grid.Column width={3}>
             {currentUser.role.name == "MENTEE" && (
               <Button
+                color='yellow'
                 as={Link}
                 size="large"
                 to={{
                   pathname: `${url}/becomeMentor`,
                   user: currentUser,
                 }}
+                
               >
                 Apply For Become Mentor
               </Button>
@@ -73,7 +75,7 @@ export default function MenteePage({ match }) {
                 >
                   <Item.Image
                     size="tiny"
-                    src="https://react.semantic-ui.com/images/avatar/large/stevie.jpg"
+                    src="https://react.semantic-ui.com/images/avatar/large/matthew.png"
                   />
                   <Item.Content>
                     <Item.Header as="a" style={{ textDecoration: "none" }}>

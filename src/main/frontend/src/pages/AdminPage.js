@@ -10,12 +10,14 @@ import {
   Segment,
   Container,
 } from "semantic-ui-react";
+import AuthService from "../services/auth.service";
+import { ROLE_ADMIN } from "./Roles";
 
 export default function AdminPage({match}) {
   const { url } = match;
   return (
     <Container className='my-5' placeholder>
-      <Segment size='large'>
+      {AuthService.getCurrentUserRole() == ROLE_ADMIN && (<Segment size='large'>
         <Grid columns={2} stackable textAlign="center">
           <Divider vertical>Or</Divider>
 
@@ -41,7 +43,7 @@ export default function AdminPage({match}) {
             </Grid.Column>
           </Grid.Row>
         </Grid>
-      </Segment>
+      </Segment>)}
 
     </Container>
   );

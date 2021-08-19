@@ -42,6 +42,12 @@ public class UserController {
 		return this.userService.findByUsername(username);
 	}
 	
+	@GetMapping("/users/getByGoogleAuth/{email}")
+	public DataResult<User> getByGoogleAuth(@PathVariable("email") String email){
+		return this.userService.findByEmail(email);
+	}
+	
+	
 	@PostMapping("/users/add")
 	public Result addUser(@RequestBody User user) {
 		return this.userService.saveOrUpdateUser(user);
@@ -56,4 +62,12 @@ public class UserController {
 	public DataResult<List<User>> getAllMentorsBySubsubject(@PathVariable("subsubjectName") String subsubjectName){
 		return this.userService.findAllMentorsBySubsubject(subsubjectName);
 	}
+	
+	@GetMapping("/users/getByDescription/{description}")
+	public DataResult<List<User>> getMentorsByDescription(@PathVariable("description") String description){
+		return this.userService.findMentorsByDescription(description);
 	}
+	
+	
+	
+}

@@ -40,10 +40,10 @@ objectclass: top
 objectclass: person
 objectclass: organizationalPerson
 objectclass: inetOrgPerson
-cn: Huseyin Erdogan
-sn:Erdogan
+cn: Hüseyin Erdoğan	
+sn: Erdoğan
 uid: hus
-userPassword: 12344
+userPassword: 123
 
 dn: uid=jerry,ou=people,dc=springframework,dc=org
 objectclass: top

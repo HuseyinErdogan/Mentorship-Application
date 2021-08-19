@@ -17,6 +17,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.ldap.DefaultSpringSecurityContextSource;
 import org.springframework.stereotype.Component;
 
+import jsi.mentorship.business.abstracts.UserService;
+
 import javax.annotation.PostConstruct;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -29,6 +31,9 @@ public class OpenLdapAuthenticationProvider implements AuthenticationProvider {
     private LdapContextSource contextSource;
 
     private LdapTemplate ldapTemplate;
+    
+    @Autowired
+    private UserService userService;
 
     @PostConstruct
     private void initContext() {
@@ -52,9 +57,12 @@ public class OpenLdapAuthenticationProvider implements AuthenticationProvider {
                 authentication.getCredentials().toString());
         if (authenticate) {
             List<GrantedAuthority> grantedAuthorities = new ArrayList<>();
-            grantedAuthorities.add(new SimpleGrantedAuthority("ROLE_MENTOR"));
-            grantedAuthorities.add(new SimpleGrantedAuthority("ROLE_MENTEE"));
-            grantedAuthorities.add(new SimpleGrantedAuthority("ROLE_MANAGER"));
+            
+            String role = this.userService.findByUsername(authentication.getName()).getData().getRole().getName();
+            
+            grantedAuthorities.add(new SimpleGrantedAuthority("ROLE_"+role));
+            
+            
             UserDetails userDetails = new User(authentication.getName() ,authentication.getCredentials().toString()
                     ,grantedAuthorities);
             Authentication auth = new UsernamePasswordAuthenticationToken(userDetails,
@@ -70,6 +78,8 @@ public class OpenLdapAuthenticationProvider implements AuthenticationProvider {
     public boolean supports(Class<?> authentication) {
         return authentication.equals(UsernamePasswordAuthenticationToken.class);
     }
+    
+    
     
     
 }

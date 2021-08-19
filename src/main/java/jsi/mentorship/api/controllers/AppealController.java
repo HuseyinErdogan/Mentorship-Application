@@ -25,10 +25,7 @@ import jsi.mentorship.models.concretes.MentorshipAppeal;
 @RestController
 @RequestMapping("/api/appeals")
 public class AppealController {	
-	
-	 public static final String ROLE_ADMIN = "ROLE_MANAGER";
-	    public static final String ROLE_USER = "ROLE_USER";
-		
+
 		@Autowired
 		private BecomeMentorAppealService becomeMentorAppealService;
 		@Autowired

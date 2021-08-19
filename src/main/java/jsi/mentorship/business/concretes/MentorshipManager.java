@@ -15,7 +15,6 @@ import jsi.mentorship.core.utilities.results.SuccessDataResult;
 import jsi.mentorship.core.utilities.results.SuccessResult;
 import jsi.mentorship.dataAccess.MentorshipRepository;
 import jsi.mentorship.dataAccess.UserRepository;
-import jsi.mentorship.models.concretes.BecomeMentorAppeal;
 import jsi.mentorship.models.concretes.Mentorship;
 import jsi.mentorship.models.concretes.Phase;
 import jsi.mentorship.models.concretes.User;
@@ -29,9 +28,6 @@ public class MentorshipManager implements MentorshipService{
 	@Autowired
 	private UserRepository userRepository;
 	
-	@Autowired
-	private SequenceGenerator sequenceGenerator; 
-	
 	@Override
 	public DataResult<List<Mentorship>> findAll() {
 		return new SuccessDataResult<List<Mentorship>>(mentorshipRepository.findAll(), "Mentorships are successfully founded");
@@ -40,7 +36,6 @@ public class MentorshipManager implements MentorshipService{
 	@Override
 	public Result saveOrUpdateMentorship(Mentorship mentorship) {
 		
-		mentorship.setId(sequenceGenerator.getSequenceNumber(Mentorship.SEQUENCE_NAME));
 		
 		if(mentorship.getPhases().get(mentorship.getPhases().size()-1).isDone()) {
 			mentorship.setSituation(2);;

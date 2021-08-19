@@ -26,10 +26,22 @@ const getMentorsBySubsubjectName = (subsubjectName) => {
   return axios.get(API_URL + "/getBySubsubject/"+subsubjectName, { headers: authHeader() });
 } 
 
+const getMentorsByDescription = (description) => {
+  return axios.get(API_URL + "/getByDescription/"+description, { headers: authHeader() });
+} 
+
+const getUserByGoogleResponse = (response) => {
+  const email = response.profileObj.email;
+  return axios.get(API_URL + "/getByGoogleAuth/"+email);
+};
+
+
 export default {
   getUsers,
   getUserById,
   getUserByUsername,
   addUser,
-  getMentorsBySubsubjectName
+  getMentorsBySubsubjectName,
+  getMentorsByDescription,
+  getUserByGoogleResponse
 };
