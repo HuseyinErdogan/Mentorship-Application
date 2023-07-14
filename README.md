@@ -12,7 +12,7 @@ It is a mentoring process tracking web application with users in Admin, Mentor a
   * can follow the processes IT mentors and make arrangements(phase planning, phase committing, giving point to phase).  
   * can apply to admin to become a Mentor.
 ## Technologies Used
-![Deployment Diagram](https://github.com/HuseyinErdogan/Mentorship-Application/blob/master/docs/Deployment%20Data%20Diagram.png)
+![Deployment Diagram](docs/Deployment%20Data%20Diagram.png)
 ## Physical Data Diagram
 ![Physical Data Diagram](https://github.com/HuseyinErdogan/Mentorship-Application/blob/master/docs/Physical%20Model%20Diagram.png)
 ### Security
